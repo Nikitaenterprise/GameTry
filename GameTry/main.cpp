@@ -4,18 +4,24 @@
 #include <vector>
 #include <list>
 #include <SFML/Graphics.hpp>
+
 #include "Entity.h"
-#include "map.h"
-#include "view.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "Mission.h"
+#include "MovingPlatform.h"
+
+#include "map.h"
 #include "level.h"
+#include "view.h"
+
+#include "Mission.h"
+
 
 
 int main()
 {
-	
+	setlocale(LC_ALL, "Russian");
+
 	float CurrentFrame = 0;
 	bool showMissionText = true;
 	float timeOfGame;
@@ -50,21 +56,29 @@ int main()
 	hero_image.loadFromFile("images/MilesTailsPrower.gif");
 	hero_image.createMaskFromColor(sf::Color::Black, 0);
 
+	sf::Image platform_image;
+	platform_image.loadFromFile("images/DungeonCrawlTileset.png");
+
 	Object player = level.GetObject("player");
 	Object enemy = level.GetObject("enemy");
+	Object platform = level.GetObject("MovingPlatform");
 
 	std::list <Entity*> entities;
 	std::list <Entity*>::iterator it;//итератор для списка
+	std::list <Entity*>::iterator it2;//второй итератор
 
-	std::vector<Object> e = level.GetObjects("enemy");//все объекты врага на tmx карте хранятся в этом векторе
+	std::vector<Object> e;//вектор для хранения врагов, платформ и всякого
 
-	for (int i = 0; i < e.size(); i++)
-	{
-		entities.push_back(new Enemy(hero_image, "EasyEnemy", level, e[i].rect.left, e[i].rect.top, 40, 30));
-	}
+	e = level.GetObjects("enemy");//все объекты врага на tmx карте хранятся в этом векторе
+	e = level.GetObjects("MovingPlatform");//все платформы тоже
 
 	Player player1(hero_image, "Player1", level, player.rect.left, player.rect.top, 40, 30);
 	//Enemy enemy1(hero_image, "EasyEnemy", level, enemy.rect.left, enemy.rect.top, 40, 30);
+	for (int i = 0; i < e.size(); i++)
+	{
+		entities.push_back(new Enemy(hero_image, "EasyEnemy", level, e[i].rect.left, e[i].rect.top, 40, 30));
+		entities.push_back(new MovingPlatform(platform_image, "SimplePlatform", level, e[i].rect.left, e[i].rect.top, 32*4, 32));
+	}
 
 	sf::Image map_image;
 	map_image.loadFromFile("images/map.png");
@@ -154,6 +168,23 @@ int main()
 		player1.Update(time);
 		for (it = entities.begin(); it != entities.end(); it++)
 		{
+			//проверка двух врагов
+			for (it2 = entities.begin(); it2 != entities.end(); it2++)
+			{
+				//если враги разные
+				if ((*it)->GetRect() != (*it2)->GetRect())
+				{
+					//и два их спрайта пересекаются
+					if ((*it)->GetRect().intersects((*it2)->GetRect()) && ((*it)->name == "EasyEnemy") && ((*it2)->name == "EasyEnemy"))
+					{
+						//тогда расталкиваем их
+						(*it)->dx *= -1;
+						(*it)->sprite.scale(-1, 1);
+					}
+				}
+				
+			}
+
 			if ((*it)->GetRect().intersects(player1.GetRect()))//если прямоугольник спрайта объекта пересекается с игроком
 			{
 				if ((*it)->name == "EasyEnemy")
@@ -185,6 +216,15 @@ int main()
 					else
 					{
 						player1.health -= 5;	//иначе враг подошел к нам сбоку и нанес урон
+					}
+				}
+				if ((*it)->name == "SimplePlatform")
+				{
+					if (player1.dy > 0 && player1.onGround == false)
+					{
+						player1.onGround = true;
+						player1.x = (*it)->x;
+						player1.y = (*it)->y;
 					}
 				}
 			}

@@ -12,6 +12,7 @@ class Entity
 public:
 	
 	float x, y, w, h, dx, dy, speed;
+	float moveTimer;
 	int health;
 	bool isLive, isMove, onGround;
 

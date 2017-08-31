@@ -10,7 +10,7 @@ Entity::Entity(sf::Image &image, sf::String Name, float X, float Y, float W, flo
 	texture.loadFromImage(image);
 	sprite.setTexture(texture);
 	sprite.setOrigin(w / 2, h / 2);
-	std::cout << "Hi!\n";
+	std::cout << "Hi! I`m entity\n";
 }
 
 

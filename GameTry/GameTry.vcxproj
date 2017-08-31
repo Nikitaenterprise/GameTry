@@ -156,6 +156,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="tinystr.cpp" />
     <ClCompile Include="tinyxml.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="level.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="Mission.h" />
+    <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="tinystr.h" />
     <ClInclude Include="tinyxml.h" />
