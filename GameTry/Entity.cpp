@@ -16,6 +16,7 @@ Entity::Entity(sf::Image &image, sf::String Name, float X, float Y, float W, flo
 
 Entity::~Entity()
 {
+	std::cout << "Entity deleted\n";
 }
 
 sf::FloatRect Entity::GetRect()

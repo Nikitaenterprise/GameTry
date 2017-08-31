@@ -13,34 +13,46 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Заголовочные файлы\Entity">
+      <UniqueIdentifier>{3fb15eba-3b75-4e85-ae0d-9f9099da1241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Entity">
+      <UniqueIdentifier>{d6b57412-5b29-4ba1-8b4a-68d76755d528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\TiXML">
+      <UniqueIdentifier>{1d5e6254-95ce-411c-a6de-7d43618781ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\TiXML">
+      <UniqueIdentifier>{d548ca45-e79b-468e-b06e-776eebde9efd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="level.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="tinystr.cpp">
-      <Filter>Файлы исходного кода</Filter>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Файлы исходного кода\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="tinyxml.cpp">
-      <Filter>Файлы исходного кода</Filter>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Файлы исходного кода\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="tinyxmlerror.cpp">
-      <Filter>Файлы исходного кода</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>Файлы исходного кода\Entity</Filter>
     </ClCompile>
     <ClCompile Include="tinyxmlparser.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы исходного кода\TiXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlerror.cpp">
+      <Filter>Файлы исходного кода\TiXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml.cpp">
+      <Filter>Файлы исходного кода\TiXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinystr.cpp">
+      <Filter>Файлы исходного кода\TiXML</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,26 +62,26 @@
     <ClInclude Include="view.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Mission.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="level.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Заголовочные файлы\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Заголовочные файлы\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Заголовочные файлы\Entity</Filter>
+    </ClInclude>
     <ClInclude Include="tinystr.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Заголовочные файлы\TiXML</Filter>
     </ClInclude>
     <ClInclude Include="tinyxml.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Заголовочные файлы\TiXML</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

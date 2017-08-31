@@ -143,18 +143,10 @@ int main()
 			else if (localPosition.y < 3) view.move(0, time*-0.5);
 			else if (localPosition.y > window.getSize().y - 3) view.move(0, time*0.5);
 
-			int click = 1;
+			
 			if (event.type == event.MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 			{
-				
-				while (click == 1)
-				{
 				entities.push_back(new Enemy(hero_image, "EasyEnemy", level, localPosition.x, localPosition.y, 40, 30));
-				
-				break;
-				}
-				click = 0;
-						
 			}
 	
 		}
@@ -166,7 +158,30 @@ int main()
 			{
 				if ((*it)->name == "EasyEnemy")
 				{
-					if ((player1.dy>0) && (player1.onGround == false)) { (*it)->dx = 0; player1.dy = -0.2; (*it)->health = 0; }//если прыгнули на врага,то даем врагу скорость 0,отпрыгиваем от него чуть вверх,даем ему здоровье 0
+					if ((player1.dy>0 && player1.onGround == false) || (player1.dy>0))
+					{
+						//если прыгнули на врага,то даем врагу скорость 0,отпрыгиваем от него чуть вверх,даем ему здоровье 0
+						//или если соскочили а не прыгнули
+						//(*it)->dx = 0; 
+						player1.dy = -0.2; 
+						//(*it)->health = 0; 
+					}
+					if ((*it)->dx > 0)
+					{
+						//если враг идет вправо тогда отталкиваем его и останавливаем
+						(*it)->x = player1.x - (*it)->w;
+						(*it)->dx *= -1;
+						(*it)->sprite.scale(-1, 1);
+						(*it)->dy = -0.3;
+					}
+					else if ((*it)->dx < 0)
+					{
+						//если враг идет влево тогда отталкиваем его и останавливаем
+						(*it)->x = player1.x + (*it)->w;
+						(*it)->dx *= -1;
+						(*it)->sprite.scale(-1, 1);
+						(*it)->dy = -0.3;
+					}
 					else
 					{
 						player1.health -= 5;	//иначе враг подошел к нам сбоку и нанес урон
