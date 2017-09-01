@@ -25,4 +25,5 @@ public:
 	void CheckCollisionWithMap(float Dx, float Dy);
 	void MouseControl(sf::Event &event, sf::Vector2f &pos);
 	void AutoMove(float tempX, float tempY, float time);
+	void IntersectionWithEntities(std::list <Entity*>::iterator & it, float time);
 };

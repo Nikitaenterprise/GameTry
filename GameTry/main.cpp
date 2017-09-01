@@ -149,87 +149,32 @@ int main()
 		}
 		if (player1.isLive)
 		{
-		
 			GetPlayerCoordinatesForView(player1.GetPlayerCoordinateX(), player1.GetPlayerCoordinateY());
 			sf::Vector2i localPosition = sf::Mouse::getPosition(window);//заносим в вектор координаты мыши относительно окна (х,у)
-			if (localPosition.x < 3) view.move(time*-0.5, 0);
+			/*if (localPosition.x < 3) view.move(time*-0.5, 0);
 			else if (localPosition.x > window.getSize().x - 3) view.move(time*0.5, 0);
 			else if (localPosition.y < 3) view.move(0, time*-0.5);
-			else if (localPosition.y > window.getSize().y - 3) view.move(0, time*0.5);
+			else if (localPosition.y > window.getSize().y - 3) view.move(0, time*0.5);*/
 
-			
 			if (event.type == event.MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 			{
-				entities.push_back(new Enemy(hero_image, "EasyEnemy", level, localPosition.x, localPosition.y, 40, 30));
+				entities.push_back(new Enemy(hero_image, "EasyEnemy", level, pos.x, pos.y, 40, 30));
+				event.type = event.MouseButtonReleased;
 			}
-	
 		}
 		
 		player1.Update(time);
 		for (it = entities.begin(); it != entities.end(); it++)
 		{
-			//проверка двух врагов
+			//проверка двух врагов на столкновени€
 			for (it2 = entities.begin(); it2 != entities.end(); it2++)
 			{
-				//если враги разные
-				if ((*it)->GetRect() != (*it2)->GetRect())
-				{
-					//и два их спрайта пересекаютс€
-					if ((*it)->GetRect().intersects((*it2)->GetRect()) && ((*it)->name == "EasyEnemy") && ((*it2)->name == "EasyEnemy"))
-					{
-						//тогда расталкиваем их
-						(*it)->dx *= -1;
-						(*it)->sprite.scale(-1, 1);
-					}
-				}
-				
+				IntersectionBetweenEntities(entities, it, it2);				
 			}
-
-			if ((*it)->GetRect().intersects(player1.GetRect()))//если пр€моугольник спрайта объекта пересекаетс€ с игроком
-			{
-				if ((*it)->name == "EasyEnemy")
-				{
-					if ((player1.dy>0 && player1.onGround == false) || (player1.dy>0))
-					{
-						//если прыгнули на врага,то даем врагу скорость 0,отпрыгиваем от него чуть вверх,даем ему здоровье 0
-						//или если соскочили а не прыгнули
-						//(*it)->dx = 0; 
-						player1.dy = -0.2; 
-						//(*it)->health = 0; 
-					}
-					if ((*it)->dx > 0)
-					{
-						//если враг идет вправо тогда отталкиваем его и останавливаем
-						(*it)->x = player1.x - (*it)->w;
-						(*it)->dx *= -1;
-						(*it)->sprite.scale(-1, 1);
-						(*it)->dy = -0.3;
-					}
-					else if ((*it)->dx < 0)
-					{
-						//если враг идет влево тогда отталкиваем его и останавливаем
-						(*it)->x = player1.x + (*it)->w;
-						(*it)->dx *= -1;
-						(*it)->sprite.scale(-1, 1);
-						(*it)->dy = -0.3;
-					}
-					else
-					{
-						player1.health -= 5;	//иначе враг подошел к нам сбоку и нанес урон
-					}
-				}
-				if ((*it)->name == "SimplePlatform")
-				{
-					if (player1.dy > 0 && player1.onGround == false)
-					{
-						player1.onGround = true;
-						player1.x = (*it)->x;
-						player1.y = (*it)->y;
-					}
-				}
-			}
+			//проверка игрока и врага на столкновение
+			player1.IntersectionWithEntities(it, time);
 		}
-		for (it = entities.begin(); it != entities.end();)//говорим что проходимс€ от начала до конца
+		for (it = entities.begin(); it != entities.end();)
 		{
 			Entity *b = *it;
 			b->Update(time);//вызываем ф-цию update дл€ всех объектов (по сути дл€ тех, кто жив)

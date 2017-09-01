@@ -23,3 +23,18 @@ sf::FloatRect Entity::GetRect()
 {
 	return sf::FloatRect(x, y, w, h);
 }
+
+void IntersectionBetweenEntities(std::list<Entity*>& entities, std::list<Entity*>::iterator & it, std::list<Entity*>::iterator & it2)
+{
+	//если враги разные
+	if ((*it)->GetRect() != (*it2)->GetRect())
+	{
+		//и два их спрайта пересекаются
+		if ((*it)->GetRect().intersects((*it2)->GetRect()) && ((*it)->name == "EasyEnemy") && ((*it2)->name == "EasyEnemy"))
+		{
+			//тогда расталкиваем их
+			(*it)->dx *= -1;
+			(*it)->sprite.scale(-1, 1);
+		}
+	}
+}

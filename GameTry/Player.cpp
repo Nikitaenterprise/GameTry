@@ -13,7 +13,6 @@ Player::Player(sf::Image & image, sf::String Name, Level & lev, float X, float Y
 	}
 }
 
-
 Player::~Player()
 {
 }
@@ -205,3 +204,54 @@ void Player::AutoMove(float tempX, float tempY, float time)
 	}
 }
 
+void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float time)
+{
+	if ((*it)->GetRect().intersects(this->GetRect()))//если прямоугольник спрайта объекта пересекается с игроком
+	{
+		if ((*it)->name == "EasyEnemy")
+		{
+			if ((this->dy>0 && this->onGround == false) || (this->dy>0))
+			{
+				//если прыгнули на врага,то даем врагу скорость 0,отпрыгиваем от него чуть вверх,даем ему здоровье 0
+				//или если соскочили а не прыгнули
+				(*it)->dx = 0; 
+				this->dy = -0.2;
+				(*it)->health = 0; 
+			}
+			if ((*it)->dx > 0)
+			{
+				//если враг идет вправо тогда отталкиваем его и останавливаем
+				(*it)->x = this->x - (*it)->w;
+				(*it)->dx *= -1;
+				(*it)->sprite.scale(-1, 1);
+				(*it)->dy = -0.3;
+			}
+			else if ((*it)->dx < 0)
+			{
+				//если враг идет влево тогда отталкиваем его и останавливаем
+				(*it)->x = this->x + (*it)->w;
+				(*it)->dx *= -1;
+				(*it)->sprite.scale(-1, 1);
+				(*it)->dy = -0.3;
+			}
+			else
+			{
+				this->health -= 5;	//иначе враг подошел к нам сбоку и нанес урон
+			}
+		}
+		if ((*it)->name == "SimplePlatform")
+		{
+			if (this->y + this->h < (*it)->y + (*it)->h)
+			{
+				//если игрок находится выше платформы, т.е это его ноги минимум (тк мы уже проверяли что он столкнулся с платформой)
+				if (this->dy > 0 && this->onGround == false)
+				{
+					this->x += (*it)->dx*time;
+					this->y = (*it)->y - this->h;
+					this->dy = 0;
+					//this->onGround = true;
+				}
+			}
+		}
+	}
+}

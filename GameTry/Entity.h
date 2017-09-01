@@ -27,5 +27,7 @@ public:
 	~Entity();
 	sf::FloatRect GetRect();
 	virtual void Update(float time) = 0;
+	
 };
 
+void IntersectionBetweenEntities(std::list <Entity*> & entities, std::list <Entity*>::iterator & it, std::list <Entity*>::iterator & it2);
