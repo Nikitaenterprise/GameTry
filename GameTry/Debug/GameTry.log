@@ -1,11 +1,5 @@
-﻿  Player.cpp
-d:\учёба\c++\gametry\gametry\player.cpp(12): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-d:\учёба\c++\gametry\gametry\player.cpp(35): warning C4305: =: усечение из "double" к "float"
-d:\учёба\c++\gametry\gametry\player.cpp(43): warning C4305: =: усечение из "double" к "float"
-d:\учёба\c++\gametry\gametry\player.cpp(51): warning C4305: =: усечение из "double" к "float"
-d:\учёба\c++\gametry\gametry\player.cpp(61): warning C4305: =: усечение из "double" к "float"
-d:\учёба\c++\gametry\gametry\player.cpp(218): warning C4305: =: усечение из "double" к "float"
-d:\учёба\c++\gametry\gametry\player.cpp(227): warning C4305: =: усечение из "double" к "float"
-d:\учёба\c++\gametry\gametry\player.cpp(235): warning C4305: =: усечение из "double" к "float"
+﻿  Bullet.cpp
+d:\учёба\c++\gametry\gametry\bullet.cpp(9): warning C4305: =: усечение из "double" к "float"
+d:\учёба\c++\gametry\gametry\bullet.cpp(12): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
   GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.exe
   GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.pdb (Full PDB)

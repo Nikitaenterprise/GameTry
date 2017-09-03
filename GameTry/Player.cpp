@@ -7,6 +7,7 @@ Player::Player(sf::Image & image, sf::String Name, Level & lev, float X, float Y
 	playerScore = 0;
 	state = stay;
 	isSelect = false;
+	isShoot = false;
 	if (name == "Player1")
 	{
 		sprite.setTextureRect(sf::IntRect(int(4), int(19), w, h)); //Задаем спрайту один прямоугольник для вывода одного льва, а не кучи львов сразу. IntRect - приведение типов
@@ -63,6 +64,7 @@ void Player::Control()
 		//if (CurrentFrame > 3) CurrentFrame -= 3;
 		//player1.sprite.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 6, 96, 96));
 	}
+	//стрельба
 	
 }
 
@@ -84,9 +86,9 @@ void Player::Update(float time)
 	case stay:
 		break;
 	}
-	x = x + dx*time;
+	x += dx*time;
 	CheckCollisionWithMap(dx, 0);
-	y = y + dy*time;
+	y += dy*time;
 	CheckCollisionWithMap(0, dy);
 	if(!isMove) speed = 0;
 	sprite.setPosition(x + w / 2, y + h / 2);
@@ -151,7 +153,7 @@ void Player::CheckCollisionWithMap(float Dx, float Dy)
 		}
 }
 
-void Player::MouseControl(sf::Event &event, sf::Vector2f &pos)
+void Player::MouseControl(sf::Event & event, sf::Vector2f & pos)
 {
 	if (sf::Event::MouseButtonPressed)
 	{

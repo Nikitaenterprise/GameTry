@@ -11,7 +11,7 @@ private:
 	
 public:
 	int playerScore;
-	bool isSelect;
+	bool isSelect, isShoot;
 	enum {left, up, right, down, jump, stay} state;
 	float tempX, tempY;//временные переменные для авто перемещения по клику
 
@@ -23,7 +23,7 @@ public:
 	void Control();
 	void Update(float time);
 	void CheckCollisionWithMap(float Dx, float Dy);
-	void MouseControl(sf::Event &event, sf::Vector2f &pos);
+	void MouseControl(sf::Event & event, sf::Vector2f & pos);
 	void AutoMove(float tempX, float tempY, float time);
 	void IntersectionWithEntities(std::list <Entity*>::iterator & it, float time);
 };

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "MovingPlatform.h"
+#include "Bullet.h"
 
 #include "map.h"
 #include "level.h"
@@ -56,8 +57,8 @@ int main()
 	hero_image.loadFromFile("images/MilesTailsPrower.gif");
 	hero_image.createMaskFromColor(sf::Color::Black, 0);
 
-	sf::Image platform_image;
-	platform_image.loadFromFile("images/DungeonCrawlTileset.png");
+	sf::Image texture_image;
+	texture_image.loadFromFile("images/DungeonCrawlTileset.png");
 
 	Object player = level.GetObject("player");
 	Object enemy = level.GetObject("enemy");
@@ -77,7 +78,7 @@ int main()
 	for (int i = 0; i < e.size(); i++)
 	{
 		entities.push_back(new Enemy(hero_image, "EasyEnemy", level, e[i].rect.left, e[i].rect.top, 40, 30));
-		entities.push_back(new MovingPlatform(platform_image, "SimplePlatform", level, e[i].rect.left, e[i].rect.top, 32*4, 32));
+		entities.push_back(new MovingPlatform(texture_image, "SimplePlatform", level, e[i].rect.left, e[i].rect.top, 32*4, 32));
 	}
 
 	sf::Image map_image;
@@ -109,9 +110,7 @@ int main()
 
 		sf::Vector2i pixelPos = sf::Mouse::getPosition(window);//забираем коорд курсора
 		sf::Vector2f pos = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд окна)
-		//std::cout << pixelPos.x << "\n";//смотрим на координату Х позиции курсора в консоли (она не будет больше ширины окна)
-		//std::cout << pos.x << "\n";//смотрим на Х,которая преобразовалась в мировые координаты
-
+		
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -121,7 +120,7 @@ int main()
 			//player1.AutoMove(player1.tempX, player1.tempY, time);
 
 			if (event.type == sf::Event::KeyPressed)//событие нажатия клавиши
-				if ((event.key.code == sf::Keyboard::Tab)) //если клавиша ТАБ
+				if (event.key.code == sf::Keyboard::Tab) //если клавиша ТАБ
 				{
 					switch (showMissionText) //переключатель, реагирующий на логическую переменную showMissionText
 					{
@@ -146,7 +145,25 @@ int main()
 					}
 					}
 				}
+
+			//стрельба
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::P)
+				{
+					//если выстрелили, то появляется пуля. enum передаем как int 
+					std::cout << player1.state<<std::endl;
+					entities.push_back(new Bullet(texture_image, "Bullet", level, player1.x, player1.y, 32, 32, player1.state));
+				}
+			}
+
+			if (event.type == event.MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+			{
+				entities.push_back(new Enemy(hero_image, "EasyEnemy", level, pos.x, pos.y, 40, 30));
+			}
+
 		}
+
 		if (player1.isLive)
 		{
 			GetPlayerCoordinatesForView(player1.GetPlayerCoordinateX(), player1.GetPlayerCoordinateY());
@@ -154,13 +171,7 @@ int main()
 			/*if (localPosition.x < 3) view.move(time*-0.5, 0);
 			else if (localPosition.x > window.getSize().x - 3) view.move(time*0.5, 0);
 			else if (localPosition.y < 3) view.move(0, time*-0.5);
-			else if (localPosition.y > window.getSize().y - 3) view.move(0, time*0.5);*/
-
-			if (event.type == event.MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
-			{
-				entities.push_back(new Enemy(hero_image, "EasyEnemy", level, pos.x, pos.y, 40, 30));
-				event.type = event.MouseButtonReleased;
-			}
+			else if (localPosition.y > window.getSize().y - 3) view.move(0, time*0.5);*/	
 		}
 		
 		player1.Update(time);
