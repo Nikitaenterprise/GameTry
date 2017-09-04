@@ -1,7 +1,5 @@
 #include "Entity.h"
 
-
-
 Entity::Entity(sf::Image &image, sf::String Name, float X, float Y, float W, float H)
 {
 	x = X; y = Y; w = W; h = H; name = Name; dx = 0; dy = 0; speed = 0;

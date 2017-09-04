@@ -1,5 +1,0 @@
-﻿  Bullet.cpp
-d:\учёба\c++\gametry\gametry\bullet.cpp(9): warning C4305: =: усечение из "double" к "float"
-d:\учёба\c++\gametry\gametry\bullet.cpp(12): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-  GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.exe
-  GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.pdb (Full PDB)

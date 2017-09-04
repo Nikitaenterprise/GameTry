@@ -17,8 +17,6 @@
 
 #include "Mission.h"
 
-
-
 int main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -152,7 +150,7 @@ int main()
 				if (event.key.code == sf::Keyboard::P)
 				{
 					//если выстрелили, то появляется пуля. enum передаем как int 
-					std::cout << player1.state<<std::endl;
+					std::cout << player1.state << std::endl;
 					entities.push_back(new Bullet(texture_image, "Bullet", level, player1.x, player1.y, 32, 32, player1.state));
 				}
 			}

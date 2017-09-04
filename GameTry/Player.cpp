@@ -10,7 +10,7 @@ Player::Player(sf::Image & image, sf::String Name, Level & lev, float X, float Y
 	isShoot = false;
 	if (name == "Player1")
 	{
-		sprite.setTextureRect(sf::IntRect(int(4), int(19), w, h)); //Задаем спрайту один прямоугольник для вывода одного льва, а не кучи львов сразу. IntRect - приведение типов
+		sprite.setTextureRect(sf::IntRect(int(4), int(19), w, h)); 
 	}
 }
 
