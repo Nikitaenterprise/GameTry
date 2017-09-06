@@ -1,12 +1,13 @@
 #pragma once
 #include "Entity.h"
+
 class Enemy : public Entity
 {
 public:
 
-	Enemy(sf::Image &image, sf::String Name, Level &lvl, float X, float Y, int W, int H);
+	Enemy(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _w, int _h);
 	~Enemy();
-	void CheckCollisionWithMap(float Dx, float Dy);
-	void Update(float time);
+	void CheckCollisionWithMap(float _dx, float _dy);
+	void Update(float _time);
 };
 
