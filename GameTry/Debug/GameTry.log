@@ -1,4 +1,0 @@
-﻿  Entity.cpp
-d:\учёба\c++\gametry\gametry\entity.cpp(5): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-  GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.exe
-  GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.pdb (Full PDB)
