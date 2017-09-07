@@ -11,6 +11,7 @@
 #include "MovingPlatform.h"
 #include "Bullet.h"
 
+#include "map.h"
 #include "level.h"
 #include "view.h"
 
@@ -58,6 +59,8 @@ int main()
 	texture_image.loadFromFile("images/DungeonCrawlTileset.png");
 
 	Object player = level.GetObject("player");
+	Object enemy = level.GetObject("enemy");
+	Object platform = level.GetObject("MovingPlatform");
 
 	std::list <Entity*> entities;
 	std::list <Entity*>::iterator it;//итератор для списка
@@ -65,21 +68,26 @@ int main()
 
 	std::vector<Object> e;//вектор для хранения врагов, платформ и всякого
 
-	//создание врагов
-	e = level.GetObjects("enemy");	
+	
+	Player player1(hero_image, "Player1", level, player.rect.left, player.rect.top, 40, 30);
+
+	e = level.GetObjects("enemy");//все объекты врага на tmx карте хранятся в этом векторе
 	for (int i = 0; i < e.size(); i++)
 	{
 		entities.push_back(new Enemy(hero_image, "EasyEnemy", level, e[i].rect.left, e[i].rect.top, 40, 30));
 	}
-
-	//создание платформ
-	e = level.GetObjects("MovingPlatform");
+	e = level.GetObjects("MovingPlatform");//все платформы тоже
 	for (int i = 0; i < e.size(); i++)
 	{
 		entities.push_back(new MovingPlatform(texture_image, "SimplePlatform", level, e[i].rect.left, e[i].rect.top, 32 * 4, 32));
 	}
 
-	Player player1(hero_image, "Player1", level, player.rect.left, player.rect.top, 40, 30);
+	sf::Image map_image;
+	map_image.loadFromFile("images/map.png");
+	sf::Texture map_texture;
+	map_texture.loadFromImage(map_image);
+	sf::Sprite s_map;
+	s_map.setTexture(map_texture);
 
 	sf::Image quest_image;
 	quest_image.loadFromFile("images/missionbg.jpg");
@@ -90,6 +98,8 @@ int main()
 	s_quest.setTexture(quest_texture);
 	s_quest.setTextureRect(sf::IntRect(0, 0, 340, 510));  //приведение типов, размеры картинки исходные
 	s_quest.setScale(0.6f, 0.6f);//чуть уменьшили картинку, => размер стал меньше
+
+	RandomMapGenerate(5);
 
 	while (window.isOpen())
 	{
@@ -194,7 +204,22 @@ int main()
 		ChangeViewMap(time);
 		window.setView(view);
 		window.clear(sf::Color(128, 106, 89));
-		
+		//старая отрисовка
+		/*for (int i = 0; i < MAP_HEIGHT; i++)
+		{
+			for (int j = 0; j < MAP_WIDTH; j++)
+			{
+				if (TileMap[i][j] == ' ') s_map.setTextureRect(sf::IntRect(0, 0, 32, 32));
+				else if (TileMap[i][j] == '0') s_map.setTextureRect(sf::IntRect(64, 0, 32, 32));
+				else if (TileMap[i][j] == 's') s_map.setTextureRect(sf::IntRect(32, 0, 32, 32));
+				else if (TileMap[i][j] == 'f') s_map.setTextureRect(sf::IntRect(96, 0, 32, 32));
+				else if (TileMap[i][j] == 'h') s_map.setTextureRect(sf::IntRect(128, 0, 32, 32));
+				else if (TileMap[i][j] == 'g') s_map.setTextureRect(sf::IntRect(161, 0, 32, 32));
+				s_map.setPosition(j*32, i*32);
+				window.draw(s_map);
+			}
+		}*/
+		//новая
 		level.Draw(window);
 
 		/*std::ostringstream playerScoreString;
@@ -223,6 +248,7 @@ int main()
 			s_quest.setPosition(view.getCenter().x + 115, view.getCenter().y - 130);//позиция фона для блока	
 			window.draw(s_quest); window.draw(text); 
 		}
+		window.draw(s_map);
 		window.display();
 		
 	}

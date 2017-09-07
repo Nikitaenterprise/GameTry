@@ -1,25 +1,25 @@
 #include "Bullet.h"
 
-Bullet::Bullet(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _w, int _h, int _direction) : Entity(_image, _name, _x, _y, _w, _h)
+Bullet::Bullet(sf::Image &image, sf::String Name, Level &lev, float X, float Y, float W, float H, int dir) : Entity(image, Name, X, Y, W, H)
 {
-	obj = _level.GetObjects("solid");
-	name = "Bullet";
-	x = _x; y = _y; w = _w; h = _h;
-	direction = _direction;
+	obj = lev.GetObjects("solid");
+	x = X; y = Y; w = W; h = H;
+	direction = dir;
 	isLive = true;
 	speed = 0.8;
 	texture.loadFromImage(image);
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(1347, 1124, w, h));
 	sprite.setScale(0.5, 0.5);
-	sprite.setOrigin(_w / 2, _h / 2);
+	sprite.setOrigin(w / 2, h / 2);
+	
 }
 
 Bullet::~Bullet()
 {
 }
 
-void Bullet::Update(float _time)
+void Bullet::Update(float time)
 {
 	switch (direction)
 	{
@@ -40,8 +40,8 @@ void Bullet::Update(float _time)
 		dy = 0;
 		break;
 	}
-	x += dx*_time;
-	y += dy*_time;
+	x += dx*time;
+	y += dy*time;
 
 	for (int i = 0; i < obj.size(); i++) 
 	{

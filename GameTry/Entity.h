@@ -3,6 +3,7 @@
 #include <iostream>
 #include <list>
 #include <SFML\Graphics.hpp>
+#include "map.h"
 #include "level.h"
 
 
@@ -22,10 +23,10 @@ public:
 	sf::Sprite sprite;
 	std::vector<Object> obj;
 
-	Entity(sf::Image & _image, sf::String _name, float _x, float _y, int _w, int _h);
+	Entity(sf::Image &image, sf::String Name, float X, float Y, float W, float H);
 	~Entity();
 	sf::FloatRect GetRect();
-	virtual void Update(float _time) = 0;
+	virtual void Update(float time) = 0;
 	
 };
 

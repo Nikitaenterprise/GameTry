@@ -15,15 +15,15 @@ public:
 	enum {left, up, right, down, jump, stay} state;
 	float tempX, tempY;//временные переменные для авто перемещения по клику
 
-	Player(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _w, int _h);
+	Player(sf::Image &image, sf::String Name, Level &lev, float X, float Y, float W, float H);
 	~Player();
 
 	float GetPlayerCoordinateX();
 	float GetPlayerCoordinateY();
 	void Control();
-	void Update(float _time);
-	void CheckCollisionWithMap(float _dx, float _dy);
+	void Update(float time);
+	void CheckCollisionWithMap(float Dx, float Dy);
 	void MouseControl(sf::Event & event, sf::Vector2f & pos);
-	void AutoMove(float tempX, float tempY, float _time);
+	void AutoMove(float tempX, float tempY, float time);
 	void IntersectionWithEntities(std::list <Entity*>::iterator & it, float time);
 };
