@@ -35,7 +35,7 @@ void IntersectionBetweenEntities(std::list<Entity*> & entities, std::list<Entity
 			(*it)->sprite.scale(-1, 1);
 		}
 		//спрайты пересекаются причем это пуля и враг	
-		if ((*it2)->GetRect().intersects((*it)->GetRect()) && ((*it)->name == "Bullet") && ((*it2)->name == "EasyEnemy"))
+		if ((*it)->sprite.getGlobalBounds().intersects((*it2)->sprite.getGlobalBounds()) && ((*it)->name == "Bullet") && ((*it2)->name == "EasyEnemy"))
 		{
 			//убиваем пулю, врагу -50 здоровья
 			(*it)->isLive = false;

@@ -5,14 +5,15 @@ Bullet::Bullet(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 	obj = _level.GetObjects("solid");
 	name = "Bullet";
 	x = _x; y = _y; w = _w; h = _h;
+	image = _image;
 	direction = _direction;
 	isLive = true;
 	speed = 0.8;
-	texture.loadFromImage(image);
+	texture.loadFromImage(_image);
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(1347, 1124, w, h));
 	sprite.setScale(0.5, 0.5);
-	sprite.setOrigin(_w / 2, _h / 2);
+	sprite.setOrigin(w / 2, h / 2);
 }
 
 Bullet::~Bullet()
@@ -46,9 +47,8 @@ void Bullet::Update(float _time)
 	for (int i = 0; i < obj.size(); i++) 
 	{
 		//проход по объектам solid
-		if (GetRect().intersects(obj[i].rect)) //если этот объект столкнулся с пулей,
+		if (this->sprite.getGlobalBounds().intersects(obj[i].rect)) //если этот объект столкнулся с пулей,
 		{
-			std::cout << x << " " << y << std::endl;
 			isLive = false;// то пуля умирает
 		}
 	}

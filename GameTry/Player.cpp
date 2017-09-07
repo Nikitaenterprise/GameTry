@@ -34,6 +34,7 @@ void Player::Control()
 	{
 		state = left;
 		speed = 0.1;
+		sprite.setScale(-1, 1);
 		//CurrentFrame += 0.005*time; //служит для прохождения по "кадрам". переменная доходит до трех суммируя произведение времени и скорости. изменив 0.005 можно изменить скорость анимации
 		//if (CurrentFrame > 3) CurrentFrame -= 3; // если пришли к третьему кадру - откидываемся назад.
 		//player1.sprite.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 96, 96, 96)); //проходимся по координатам Х. получается начинаем рисование с координаты Х равной 0,96,96*2, и опять 0
@@ -42,6 +43,7 @@ void Player::Control()
 	{
 		state = right;
 		speed = 0.1;
+		sprite.setScale(1, 1);
 		//CurrentFrame += 0.005*time;
 		//if (CurrentFrame > 3) CurrentFrame -= 3;
 		//player1.sprite.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 192, 96, 96));
