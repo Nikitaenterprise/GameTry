@@ -1,16 +1,16 @@
 #pragma once
 #include "Player.h"
 
-Player::Player(sf::Image & image, sf::String Name, Level & lev, float X, float Y, float W, float H) : Entity(image, Name, X, Y, W, H)
+Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _w, int _h) : Entity(_image, _name, _x, _y, _w, _h)
 {
-	obj = lev.GetAllObjects();//инициализируем.получаем все объекты для взаимодействия персонажа с картой	
+	obj = _level.GetAllObjects();//инициализируем.получаем все объекты для взаимодействия персонажа с картой	
 	playerScore = 0;
 	state = stay;
 	isSelect = false;
 	isShoot = false;
 	if (name == "Player1")
 	{
-		sprite.setTextureRect(sf::IntRect(int(4), int(19), w, h)); 
+		sprite.setTextureRect(sf::IntRect(int(4), int(19), _w, _h)); 
 	}
 }
 
@@ -64,11 +64,16 @@ void Player::Control()
 		//if (CurrentFrame > 3) CurrentFrame -= 3;
 		//player1.sprite.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 6, 96, 96));
 	}
-	//стрельба
-	
+	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) && (onGround))
+	{
+		state = up;
+		dy = -0.2;
+		speed = 0.1;
+		onGround = false;
+	}
 }
 
-void Player::Update(float time)
+void Player::Update(float _time)
 {
 	Control();
 	switch (state)
@@ -86,69 +91,26 @@ void Player::Update(float time)
 	case stay:
 		break;
 	}
-	x += dx*time;
+	x += dx*_time;
 	CheckCollisionWithMap(dx, 0);
-	y += dy*time;
+	y += dy*_time;
 	CheckCollisionWithMap(0, dy);
 	if(!isMove) speed = 0;
 	sprite.setPosition(x + w / 2, y + h / 2);
-	dy += 0.0010*time;
+	dy += 0.0010*_time;
 }
 
-void Player::CheckCollisionWithMap(float Dx, float Dy)
+void Player::CheckCollisionWithMap(float _dx, float _dy)
 {
-	//старая проверка на столкновения
-	/*for (int i = y / 32; i < (y + h) / 32; i++)
-	{
-		for (int j = x / 32; j < (x + w) / 32; j++)
-		{
-			if (TileMap[i][j] == '0')
-			{
-				if (Dx < 0) x = 32 * j + 32;
-				if (Dy < 0) { y = 32 * i + 32; dy = 0; }
-				if (Dx > 0) x = 32 * j - w;
-				if (Dy > 0) { y = 32 * i - h; dy = 0; onGround = true; }
-				else { onGround = false; }
-			}
-			if (TileMap[i][j] == 's')
-			{
-				std::cout << "Stone" << std::endl;
-				TileMap[i][j] = ' ';
-				playerScore++;
-				std::cout << "PlayerScore = " << playerScore << std::endl;
-				RandomMapGenerate(1);
-			}
-			if (TileMap[i][j] == 'h')
-			{
-				std::cout << "Heart" << std::endl;
-				health += 20;
-				TileMap[i][j] = ' ';
-				if (health >= 100) health = 100;
-			}
-			if (TileMap[i][j] == 'f')
-			{
-				std::cout << "Flower" << std::endl;
-				health -= 20;
-				TileMap[i][j] = ' ';
-				if (health <= 0)
-				{
-					health = 0;
-					isLive = false;
-					std::cout << "Die" << std::endl;
-				}
-			}
-		}
-	}*/
-	//новая
 	for (int i = 0; i<obj.size(); i++)//проходимся по объектам
 		if (GetRect().intersects(obj[i].rect))//проверяем пересечение игрока с объектом
 		{
 			if (obj[i].name == "solid")//если встретили препятствие
 			{
-				if (Dy>0) { y = obj[i].rect.top - h;  dy = 0; onGround = true; }
-				if (Dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
-				if (Dx>0) { x = obj[i].rect.left - w; }
-				if (Dx<0) { x = obj[i].rect.left + obj[i].rect.width; }
+				if (_dy>0) { y = obj[i].rect.top - h;  dy = 0; onGround = true; }
+				if (_dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
+				if (_dx>0) { x = obj[i].rect.left - w; }
+				if (_dx<0) { x = obj[i].rect.left + obj[i].rect.width; }
 			}
 		}
 }
@@ -188,7 +150,7 @@ void Player::MouseControl(sf::Event & event, sf::Vector2f & pos)
 	}
 }
 
-void Player::AutoMove(float tempX, float tempY, float time)
+void Player::AutoMove(float tempX, float tempY, float _time)
 {
 	float distance;
 	if (isMove)
@@ -196,8 +158,8 @@ void Player::AutoMove(float tempX, float tempY, float time)
 		distance = sqrt(pow((x - tempX), 2) + pow((y - tempY), 2));
 		if (distance >= 2)
 		{
-			x += 0.1*time*(tempX - x) / distance;
-			y += 0.1*time*(tempY - y) / distance;
+			x += 0.1*_time*(tempX - x) / distance;
+			y += 0.1*_time*(tempY - y) / distance;
 		}
 		else
 		{
@@ -243,12 +205,15 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 		}
 		if ((*it)->name == "SimplePlatform")
 		{
+
 			if (this->y + this->h < (*it)->y + (*it)->h)
 			{
+				this->dx = 0;
 				//если игрок находится выше платформы, т.е это его ноги минимум (тк мы уже проверяли что он столкнулся с платформой)
 				if (this->dy > 0 && this->onGround == false)
 				{
 					this->x += (*it)->dx*time;
+					//this->dx += (*it)->dx;
 					this->y = (*it)->y - this->h;
 					this->dy = 0;
 					//this->onGround = true;

@@ -5,6 +5,6 @@
 class MovingPlatform : public Entity
 {
 public:
-	MovingPlatform(sf::Image &image, sf::String Name, Level &lvl, float X, float Y, int W, int H);
-	void Update(float time);
+	MovingPlatform(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _w, int _h);
+	void Update(float _time);
 };

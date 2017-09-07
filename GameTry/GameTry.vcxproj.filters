@@ -57,11 +57,14 @@
     <ClCompile Include="MovingPlatform.cpp">
       <Filter>Файлы исходного кода\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Файлы исходного кода\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Файлы исходного кода\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="map.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="view.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -87,6 +90,12 @@
       <Filter>Заголовочные файлы\TiXML</Filter>
     </ClInclude>
     <ClInclude Include="MovingPlatform.h">
+      <Filter>Заголовочные файлы\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Заголовочные файлы\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
       <Filter>Заголовочные файлы\Entity</Filter>
     </ClInclude>
   </ItemGroup>

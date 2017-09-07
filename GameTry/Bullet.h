@@ -6,7 +6,7 @@ class Bullet : public Entity
 public:
 	int direction;
 
-	Bullet(sf::Image &image, sf::String Name, Level &lev, float X, float Y, float W, float H, int state);
+	Bullet(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _w, int _h, int _direction);
 	~Bullet();
 
 	void Update(float time);

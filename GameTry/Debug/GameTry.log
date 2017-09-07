@@ -1,5 +1,4 @@
-﻿  main.cpp
-d:\учёба\c++\gametry\gametry\main.cpp(107): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
-d:\учёба\c++\gametry\gametry\main.cpp(133): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-main.obj : error LNK2019: ссылка на неразрешенный внешний символ "public: __thiscall Bullet::Bullet(class sf::Image &,class sf::String,class Level &,float,float,float,float,int)" (??0Bullet@@QAE@AAVImage@sf@@VString@2@AAVLevel@@MMMMH@Z) в функции _main
-D:\Учёба\C++\GameTry\Debug\GameTry.exe : fatal error LNK1120: неразрешенных внешних элементов: 1
+﻿  Entity.cpp
+d:\учёба\c++\gametry\gametry\entity.cpp(5): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+  GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.exe
+  GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.pdb (Full PDB)
