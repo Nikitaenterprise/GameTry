@@ -1,7 +1,5 @@
-﻿  main.cpp
-d:\учёба\c++\gametry\gametry\main.cpp(98): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
-d:\учёба\c++\gametry\gametry\main.cpp(124): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-  Animation.cpp
-  Создание кода...
+﻿  Bullet.cpp
+d:\учёба\c++\gametry\gametry\bullet.cpp(10): warning C4305: =: усечение из "double" к "float"
+  LINK : не найден или не выполнена сборка D:\Учёба\C++\GameTry\Debug\GameTry.exe при последней инкрементной компоновке; выполняется полная компоновка
   GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.exe
   GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.pdb (Full PDB)
