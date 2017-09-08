@@ -1,7 +1,8 @@
 #pragma once
 #include "Player.h"
 
-Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _w, int _h) : Entity(_image, _name, _x, _y, _w, _h)
+Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage) : 
+	Entity(_image, _name, _x, _y, _spriteXInImage, _spriteYInImage, _spriteWInImage, _spriteHInImage)
 {
 	obj = _level.GetAllObjects();//инициализируем.получаем все объекты для взаимодействия персонажа с картой	
 	playerScore = 0;
@@ -10,7 +11,7 @@ Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 	isShoot = false;
 	if (name == "Player1")
 	{
-		sprite.setTextureRect(sf::IntRect(int(4), int(19), _w, _h)); 
+		sprite.setTextureRect(sf::IntRect(spriteXInImage, spriteYInImage, spriteWInImage, spriteHInImage));
 	}
 }
 
@@ -98,7 +99,7 @@ void Player::Update(float _time)
 	y += dy*_time;
 	CheckCollisionWithMap(0, dy);
 	if(!isMove) speed = 0;
-	sprite.setPosition(x + w / 2, y + h / 2);
+	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
 	dy += 0.0010*_time;
 }
 
@@ -109,9 +110,9 @@ void Player::CheckCollisionWithMap(float _dx, float _dy)
 		{
 			if (obj[i].name == "solid")//если встретили препятствие
 			{
-				if (_dy>0) { y = obj[i].rect.top - h;  dy = 0; onGround = true; }
+				if (_dy>0) { y = obj[i].rect.top - spriteHInImage;  dy = 0; onGround = true; }
 				if (_dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
-				if (_dx>0) { x = obj[i].rect.left - w; }
+				if (_dx>0) { x = obj[i].rect.left - spriteWInImage; }
 				if (_dx<0) { x = obj[i].rect.left + obj[i].rect.width; }
 			}
 		}
@@ -170,7 +171,7 @@ void Player::AutoMove(float tempX, float tempY, float _time)
 	}
 }
 
-void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float time)
+void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float _time)
 {
 	if ((*it)->GetRect().intersects(this->GetRect()))//если прямоугольник спрайта объекта пересекается с игроком
 	{
@@ -187,7 +188,7 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 			if ((*it)->dx > 0)
 			{
 				//если враг идет вправо тогда отталкиваем его и останавливаем
-				(*it)->x = this->x - (*it)->w;
+				(*it)->x = this->x - (*it)->spriteWInImage;
 				(*it)->dx *= -1;
 				(*it)->sprite.scale(-1, 1);
 				(*it)->dy = -0.3;
@@ -195,7 +196,7 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 			else if ((*it)->dx < 0)
 			{
 				//если враг идет влево тогда отталкиваем его и останавливаем
-				(*it)->x = this->x + (*it)->w;
+				(*it)->x = this->x + (*it)->spriteWInImage;
 				(*it)->dx *= -1;
 				(*it)->sprite.scale(-1, 1);
 				(*it)->dy = -0.3;
@@ -208,15 +209,15 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 		if ((*it)->name == "SimplePlatform")
 		{
 
-			if (this->y + this->h < (*it)->y + (*it)->h)
+			if (this->y + this->spriteHInImage < (*it)->y + (*it)->spriteHInImage)
 			{
 				this->dx = 0;
 				//если игрок находится выше платформы, т.е это его ноги минимум (тк мы уже проверяли что он столкнулся с платформой)
 				if (this->dy > 0 && this->onGround == false)
 				{
-					this->x += (*it)->dx*time;
+					this->x += (*it)->dx*_time;
 					//this->dx += (*it)->dx;
-					this->y = (*it)->y - this->h;
+					this->y = (*it)->y - this->spriteHInImage;
 					this->dy = 0;
 					//this->onGround = true;
 				}

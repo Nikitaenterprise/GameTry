@@ -1,19 +1,20 @@
 #include "Bullet.h"
 
-Bullet::Bullet(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _w, int _h, int _direction) : Entity(_image, _name, _x, _y, _w, _h)
+Bullet::Bullet(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage, int _direction) :
+	Entity(_image, _name, _x, _y, _spriteXInImage, _spriteYInImage, _spriteWInImage, _spriteHInImage)
 {
 	obj = _level.GetObjects("solid");
 	name = "Bullet";
-	x = _x; y = _y; w = _w; h = _h;
-	image = _image;
+	//x = _x; y = _y; w = _w; h = _h;
+	//image = _image;
 	direction = _direction;
 	isLive = true;
 	speed = 0.8;
 	texture.loadFromImage(_image);
 	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(1347, 1124, w, h));
+	sprite.setTextureRect(sf::IntRect(spriteXInImage, spriteYInImage, spriteWInImage, spriteHInImage));
 	sprite.setScale(0.5, 0.5);
-	sprite.setOrigin(w / 2, h / 2);
+	//sprite.setOrigin(spriteWInImage / 2, spriteHInImage / 2);
 }
 
 Bullet::~Bullet()
@@ -52,5 +53,5 @@ void Bullet::Update(float _time)
 			isLive = false;// то пуля умирает
 		}
 	}
-	sprite.setPosition(x + w / 2, y + h / 2);
+	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
 }

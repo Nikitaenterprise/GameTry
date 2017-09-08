@@ -70,17 +70,17 @@ int main()
 	e = level.GetObjects("enemy");	
 	for (int i = 0; i < e.size(); i++)
 	{
-		entities.push_back(new Enemy(hero_image, "EasyEnemy", level, e[i].rect.left, e[i].rect.top, 40, 30));
+		entities.push_back(new Enemy(hero_image, "EasyEnemy", level, e[i].rect.left, e[i].rect.top, 4, 19, 40, 30));
 	}
 
 	//создание платформ
 	e = level.GetObjects("MovingPlatform");
 	for (int i = 0; i < e.size(); i++)
 	{
-		entities.push_back(new MovingPlatform(texture_image, "SimplePlatform", level, e[i].rect.left, e[i].rect.top, 32 * 4, 32));
+		entities.push_back(new MovingPlatform(texture_image, "SimplePlatform", level, e[i].rect.left, e[i].rect.top, 736, 512, 32 * 4, 32));
 	}
 
-	Player player1(hero_image, "Player1", level, player.rect.left, player.rect.top, 40, 30);
+	Player player1(hero_image, "Player1", level, player.rect.left, player.rect.top, 4, 19, 40, 30);
 
 	sf::Image quest_image;
 	quest_image.loadFromFile("images/missionbg.jpg");
@@ -145,13 +145,13 @@ int main()
 				{
 					//если выстрелили, то появляется пуля. enum передаем как int 
 					std::cout << player1.state << std::endl;
-					entities.push_back(new Bullet(texture_image, "Bullet", level, player1.x, player1.y, 32, 32, player1.state));
+					entities.push_back(new Bullet(texture_image, "Bullet", level, player1.x, player1.y, 1347, 1124, 32, 32, player1.state));
 				}
 			}
 
 			if (event.type == event.MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 			{
-				entities.push_back(new Enemy(hero_image, "EasyEnemy", level, pos.x, pos.y, 40, 30));
+				entities.push_back(new Enemy(hero_image, "EasyEnemy", level, pos.x, pos.y, 4, 19, 40, 30));
 			}
 
 		}

@@ -1,13 +1,16 @@
 #include "Entity.h"
 
-Entity::Entity(sf::Image & _image, sf::String _name, float _x, float _y, int _w, int _h)
+Entity::Entity(sf::Image & _image, sf::String _name, float _x, float _y, int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage)
 {
-	x = _x; y = _y; w = _w; h = _h; name = _name; dx = 0; dy = 0; speed = 0;
+	x = _x; y = _y; 
+	spriteXInImage = _spriteXInImage; spriteYInImage = _spriteYInImage;
+	spriteWInImage = _spriteWInImage; spriteHInImage = _spriteHInImage;
+	name = _name; dx = 0; dy = 0; speed = 0;
 	health = 100;
 	isLive = true; isMove = false; onGround = false;
 	texture.loadFromImage(_image);
 	sprite.setTexture(texture);
-	sprite.setOrigin(w / 2, h / 2);
+	sprite.setOrigin(spriteWInImage / 2, spriteHInImage / 2);
 	std::cout << "Hi! I`m entity\n";
 }
 
@@ -19,7 +22,7 @@ Entity::~Entity()
 
 sf::FloatRect Entity::GetRect()
 {
-	return sf::FloatRect(x, y, w, h);
+	return sf::FloatRect(x, y, spriteWInImage, spriteHInImage);
 }
 
 void IntersectionBetweenEntities(std::list<Entity*> & entities, std::list<Entity*>::iterator & it, std::list<Entity*>::iterator & it2)
@@ -40,6 +43,18 @@ void IntersectionBetweenEntities(std::list<Entity*> & entities, std::list<Entity
 			//убиваем пулю, врагу -50 здоровья
 			(*it)->isLive = false;
 			(*it2)->health -= 50;
+			//врага откидываем и подбрасываем
+			if ((*it)->dx > 0)
+			{
+				(*it2)->dx += 0.2;
+				(*it2)->dy -= 0.2;
+			}
+			if ((*it)->dx < 0)
+			{
+				(*it2)->dx -= 0.2;
+				(*it2)->dy -= 0.2;
+			}
+
 		}
 	}
 }
