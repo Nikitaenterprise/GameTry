@@ -61,7 +61,7 @@
       <Filter>Файлы исходного кода\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
-      <Filter>Файлы исходного кода\Entity</Filter>
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +96,7 @@
       <Filter>Заголовочные файлы\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>Заголовочные файлы\Entity</Filter>
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

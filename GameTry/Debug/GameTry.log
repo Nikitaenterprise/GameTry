@@ -1,4 +1,7 @@
-﻿  Entity.cpp
-d:\учёба\c++\gametry\gametry\entity.cpp(5): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+﻿  main.cpp
+d:\учёба\c++\gametry\gametry\main.cpp(98): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
+d:\учёба\c++\gametry\gametry\main.cpp(124): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+  Animation.cpp
+  Создание кода...
   GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.exe
   GameTry.vcxproj -> D:\Учёба\C++\GameTry\Debug\GameTry.pdb (Full PDB)
