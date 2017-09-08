@@ -5,8 +5,13 @@ Bullet::Bullet(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 {
 	obj = _level.GetObjects("solid");
 	name = "Bullet";
+<<<<<<< HEAD
 	//x = _x; y = _y; w = _w; h = _h;
 	//image = _image;
+=======
+	x = _x; y = _y; w = _w; h = _h;
+	image = _image;
+>>>>>>> origin/master
 	direction = _direction;
 	isLive = true;
 	speed = 0.8;
@@ -14,7 +19,11 @@ Bullet::Bullet(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(spriteXInImage, spriteYInImage, spriteWInImage, spriteHInImage));
 	sprite.setScale(0.5, 0.5);
+<<<<<<< HEAD
 	//sprite.setOrigin(spriteWInImage / 2, spriteHInImage / 2);
+=======
+	sprite.setOrigin(w / 2, h / 2);
+>>>>>>> origin/master
 }
 
 Bullet::~Bullet()
