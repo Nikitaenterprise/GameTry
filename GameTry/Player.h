@@ -18,6 +18,9 @@ public:
 	Player(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage);
 	~Player();
 
+	Animation playerStay;
+	Animation playerRight;
+
 	float GetPlayerCoordinateX();
 	float GetPlayerCoordinateY();
 	void Control();
@@ -26,4 +29,5 @@ public:
 	void MouseControl(sf::Event & event, sf::Vector2f & pos);
 	void AutoMove(float tempX, float tempY, float _time);
 	void IntersectionWithEntities(std::list <Entity*>::iterator & it, float _time);
+	void AnimationSetup();
 };

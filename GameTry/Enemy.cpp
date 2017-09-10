@@ -44,3 +44,7 @@ void Enemy::Update(float _time)
 		dy += 0.0010*_time;
 	}
 }
+
+void Enemy::AnimationSetup()
+{
+}

@@ -13,6 +13,7 @@ Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 	{
 		sprite.setTextureRect(sf::IntRect(spriteXInImage, spriteYInImage, spriteWInImage, spriteHInImage));
 	}
+	AnimationSetup();
 }
 
 Player::~Player()
@@ -101,6 +102,7 @@ void Player::Update(float _time)
 	if(!isMove) speed = 0;
 	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
 	dy += 0.0010*_time;
+	
 }
 
 void Player::CheckCollisionWithMap(float _dx, float _dy)
@@ -224,4 +226,23 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 			}
 		}
 	}
+}
+
+void Player::AnimationSetup()
+{
+	int frameNumberOfSuchType = 0;
+	//Animation playerStay;
+	frameNumberOfSuchType = 8;
+	for (int i = 0; i < frameNumberOfSuchType; i++)
+	{
+		playerStay.pushFrame(sf::IntRect((i*spriteWInImage) + 4, 18, spriteWInImage, spriteHInImage));
+	}
+
+	//Animation playerRight;
+	frameNumberOfSuchType = 8;
+	for (int i = 0; i < frameNumberOfSuchType; i++)
+	{
+		playerRight.pushFrame(sf::IntRect((i*spriteWInImage) + 297, 102, spriteWInImage, spriteHInImage));
+	}
+
 }

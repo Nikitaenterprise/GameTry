@@ -9,5 +9,6 @@ public:
 	~Enemy();
 	void CheckCollisionWithMap(float _dx, float _dy);
 	void Update(float _time);
+	void AnimationSetup();
 };
 

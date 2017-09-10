@@ -10,5 +10,7 @@ public:
 	~Bullet();
 
 	void Update(float _time);
+	void AnimationSetup();
+
 };
 

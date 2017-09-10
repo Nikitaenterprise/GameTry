@@ -20,4 +20,8 @@ void MovingPlatform::Update(float _time)
 	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
 }
 
+void MovingPlatform::AnimationSetup()
+{
+}
+
 

@@ -4,6 +4,7 @@
 #include <list>
 #include <SFML\Graphics.hpp>
 #include "level.h"
+#include "Animation.h"
 
 
 class Entity
@@ -27,7 +28,7 @@ public:
 	~Entity();
 	sf::FloatRect GetRect();
 	virtual void Update(float _time) = 0;
-	
+	virtual void AnimationSetup() = 0;
 };
 
 void IntersectionBetweenEntities(std::list <Entity*> & entities, std::list <Entity*>::iterator & it, std::list <Entity*>::iterator & it2);
