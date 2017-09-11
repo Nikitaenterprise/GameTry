@@ -2,6 +2,9 @@
 *.db
 .vs
 .vcxproj
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.users
 Debug
 Release
 GameTry/Debug
