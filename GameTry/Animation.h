@@ -19,7 +19,9 @@ public:
 	~Animation();
 
 	std::vector<sf::IntRect> frames;
+	sf::Texture texture;
 
+	void SetSpriteSheet(sf::Texture & _texture);
 	void PushFrame(sf::IntRect _frame);
 	void PushFrame(int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage);
 	const sf::IntRect & GetFrame(std::size_t n) const;
