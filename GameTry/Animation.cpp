@@ -19,6 +19,11 @@ Animation::~Animation()
 	std::cout << "Bye I was animation class\n";
 }
 
+void Animation::SetSpriteSheet(sf::Texture & _texture)
+{
+	texture = _texture;
+}
+
 void Animation::PushFrame(sf::IntRect _frame)
 {
 	frames.push_back(_frame);
