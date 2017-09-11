@@ -1,52 +1,81 @@
 #include "Animation.h"
 
-Animation::Animation()
+Animation::Animation(char* _name, float _playSpeed)
 {
+	name = _name;
+	playSpeed = _playSpeed;
+	currentFrame = 0;
+	isPaused = true;
+	
+	std::cout<<"Hi I`m animation class\n";
 }
 
-//Animation::Animation(std::list<Entity*> & _entities, std::list<Entity*>::iterator & _it, int _numberOfFrames, float _time)
-//{
-//	static float currentFrame = 0;
-//	currentFrame += 0.005*_time;
-//	if (currentFrame > _numberOfFrames) currentFrame -= _numberOfFrames;
-//	(*_it)->sprite.setTextureRect(sf::IntRect((*_it)->spriteXInImage * int(currentFrame),(*_it)->spriteYInImage, (*_it)->spriteWInImage, (*_it)->spriteHInImage));
-//}
-
-Animation::Animation(int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage)
+Animation::Animation()
 {
 }
 
 Animation::~Animation()
 {
-	std::cout << "Hi I`m animation class\n";
+	std::cout << "Bye I was animation class\n";
 }
 
-void Animation::pushFrame(sf::IntRect _frame)
+void Animation::PushFrame(sf::IntRect _frame)
 {
 	frames.push_back(_frame);
 	std::cout << "Frame pushed by first push\n";
 }
 
-void Animation::pushFrame(int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage)
+void Animation::PushFrame(int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage)
 {
 	frames.push_back(sf::IntRect(_spriteXInImage, _spriteYInImage, _spriteWInImage, _spriteHInImage));
 	std::cout << "Frame pushed by second push\n";
 }
 
-int Animation::GetVectorSize()
+const sf::IntRect & Animation::GetFrame(std::size_t n) const
+{
+	return frames[n];
+}
+
+void Animation::SetFrame(std::size_t _frame)
+{
+
+}
+
+std::size_t Animation::GetVectorSize()
 {
 	return frames.size();
 }
 
 void Animation::Play()
 {
-	std::vector<sf::IntRect>::iterator it;
-	for (it = frames.begin(); it != frames.end(); it++)
-	{
-		
-	}
+	isPaused = false;
 }
 
 void Animation::Pause()
 {
+	isPaused = true;
+}
+
+void Animation::Update(float time)
+{
+	if (!isPaused)
+	{
+		currentTime += time;
+		if (currentTime >= playSpeed)
+		{
+			if (currentFrame + 1 < this->GetVectorSize())
+			{
+				currentFrame++;
+			}
+			else
+			{
+				currentFrame = 0;
+				if (!isLooped)
+				{
+					isPaused = true;
+				}
+			}
+			SetFrame(currentFrame);
+		}
+	}
 }

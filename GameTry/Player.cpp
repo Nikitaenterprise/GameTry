@@ -14,6 +14,8 @@ Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 		sprite.setTextureRect(sf::IntRect(spriteXInImage, spriteYInImage, spriteWInImage, spriteHInImage));
 	}
 	AnimationSetup();
+	std::cout << playerStay.GetVectorSize() << std::endl;
+	std::cout << playerRight.GetVectorSize() << std::endl;
 }
 
 Player::~Player()
@@ -217,11 +219,9 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 				//если игрок находится выше платформы, т.е это его ноги минимум (тк мы уже проверяли что он столкнулся с платформой)
 				if (this->dy > 0 && this->onGround == false)
 				{
-					this->x += (*it)->dx*_time;
-					//this->dx += (*it)->dx;
+					this->x += 2*(*it)->dx*_time;
 					this->y = (*it)->y - this->spriteHInImage;
 					this->dy = 0;
-					//this->onGround = true;
 				}
 			}
 		}
@@ -235,14 +235,14 @@ void Player::AnimationSetup()
 	frameNumberOfSuchType = 8;
 	for (int i = 0; i < frameNumberOfSuchType; i++)
 	{
-		playerStay.pushFrame(sf::IntRect((i*spriteWInImage) + 4, 18, spriteWInImage, spriteHInImage));
+		playerStay.PushFrame(sf::IntRect((i*spriteWInImage) + 4, 18, spriteWInImage, spriteHInImage));
 	}
 
 	//Animation playerRight;
 	frameNumberOfSuchType = 8;
 	for (int i = 0; i < frameNumberOfSuchType; i++)
 	{
-		playerRight.pushFrame(sf::IntRect((i*spriteWInImage) + 297, 102, spriteWInImage, spriteHInImage));
+		playerRight.PushFrame(sf::IntRect((i*spriteWInImage) + 297, 102, spriteWInImage, spriteHInImage));
 	}
 
 }

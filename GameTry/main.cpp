@@ -32,6 +32,7 @@ int main()
 	sf::Clock gameTimeClock;
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+	window.setFramerateLimit(60);
 	view.reset(sf::FloatRect(0, 0, 640, 480));
 
 	Level level;

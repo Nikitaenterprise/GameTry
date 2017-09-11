@@ -6,21 +6,27 @@
 class Animation
 {
 public:
-	char* name;
 
+	char* name;
+	float playSpeed;
+	float currentTime;
+	int currentFrame;
+	bool isPaused;
+	bool isLooped;
+
+	Animation(char* _name, float _playSpeed);
 	Animation();
-	//Animation(std::list<Entity*> & _entities, std::list<Entity*>::iterator & _it, int _numberOfFrames, float _time);
-	Animation(int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage);
 	~Animation();
 
 	std::vector<sf::IntRect> frames;
 
-	void pushFrame(sf::IntRect _frame);
-	void pushFrame(int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage);
-	//sf::Sprite & pop() const;
-	int GetVectorSize();
+	void PushFrame(sf::IntRect _frame);
+	void PushFrame(int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage);
+	const sf::IntRect & GetFrame(std::size_t n) const;
+	void SetFrame(std::size_t _frame);
+	std::size_t GetVectorSize();
 	void Play();
 	void Pause();
-
+	void Update(float time);
 };
 
