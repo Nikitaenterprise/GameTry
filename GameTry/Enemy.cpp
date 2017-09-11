@@ -1,5 +1,5 @@
 #include "Enemy.h"
-
+4
 Enemy::Enemy(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage) : 
 	Entity(_image, _name, _x, _y, _spriteXInImage, _spriteYInImage, _spriteWInImage, _spriteHInImage)
 {
@@ -7,7 +7,7 @@ Enemy::Enemy(sf::Image & _image, sf::String _name, Level & _level, float _x, flo
 	if (name == "EasyEnemy")
 	{
 		sprite.setTextureRect(sf::IntRect(spriteXInImage, spriteYInImage, spriteWInImage, spriteHInImage));
-		dx = 0.1;//даем скорость.этот объект всегда двигается
+		dx = 0.1;//Г¤Г ГҐГ¬ Г±ГЄГ®Г°Г®Г±ГІГј.ГЅГІГ®ГІ Г®ГЎГєГҐГЄГІ ГўГ±ГҐГЈГ¤Г  Г¤ГўГЁГЈГ ГҐГІГ±Гї
 	}
 }
 
@@ -18,10 +18,10 @@ Enemy::~Enemy()
 
 void Enemy::CheckCollisionWithMap(float _dx, float _dy)
 {
-	for (int i = 0; i<obj.size(); i++)//проходимся по объектам
-		if (GetRect().intersects(obj[i].rect))//проверяем пересечение с объектом
+	for (int i = 0; i<obj.size(); i++)//ГЇГ°Г®ГµГ®Г¤ГЁГ¬Г±Гї ГЇГ® Г®ГЎГєГҐГЄГІГ Г¬
+		if (GetRect().intersects(obj[i].rect))//ГЇГ°Г®ГўГҐГ°ГїГҐГ¬ ГЇГҐГ°ГҐГ±ГҐГ·ГҐГ­ГЁГҐ Г± Г®ГЎГєГҐГЄГІГ®Г¬
 		{
-			//if (obj[i].name == "solid")//если встретили препятствие
+			//if (obj[i].name == "solid")//ГҐГ±Г«ГЁ ГўГ±ГІГ°ГҐГІГЁГ«ГЁ ГЇГ°ГҐГЇГїГІГ±ГІГўГЁГҐ
 			{
 				if (_dy>0) { y = obj[i].rect.top - spriteHInImage;  dy = 0; onGround = true; }
 				if (_dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
@@ -33,13 +33,13 @@ void Enemy::CheckCollisionWithMap(float _dx, float _dy)
 
 void Enemy::Update(float _time)
 {
-	if (name == "EasyEnemy") //для персонажа с таким именем логика будет такой
+	if (name == "EasyEnemy") //Г¤Г«Гї ГЇГҐГ°Г±Г®Г­Г Г¦Г  Г± ГІГ ГЄГЁГ¬ ГЁГ¬ГҐГ­ГҐГ¬ Г«Г®ГЈГЁГЄГ  ГЎГіГ¤ГҐГІ ГІГ ГЄГ®Г©
 	{
 		x += dx*_time;
-		CheckCollisionWithMap(dx, 0);//обрабатываем столкновение по Х
+		CheckCollisionWithMap(dx, 0);//Г®ГЎГ°Г ГЎГ ГІГ»ГўГ ГҐГ¬ Г±ГІГ®Г«ГЄГ­Г®ГўГҐГ­ГЁГҐ ГЇГ® Г•
 		y += dy*_time;
 		CheckCollisionWithMap(0, dy);
-		sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2); //задаем позицию спрайта в место его центра
+		sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2); //Г§Г Г¤Г ГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ Г±ГЇГ°Г Г©ГІГ  Гў Г¬ГҐГ±ГІГ® ГҐГЈГ® Г¶ГҐГ­ГІГ°Г 
 		if (health <= 0) { isLive = false; }
 		dy += 0.0010*_time;
 	}
