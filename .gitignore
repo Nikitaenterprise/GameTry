@@ -1,6 +1,8 @@
 *.exe
 *.db
 .vs
+*.vcxproj
 Debug
 Release
 GameTry/Debug
+
