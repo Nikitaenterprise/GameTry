@@ -1,6 +1,7 @@
 *.exe
 *.db
 .vs
+.opendb
 .vcxproj
 *.vcxproj
 *.vcxproj.filters

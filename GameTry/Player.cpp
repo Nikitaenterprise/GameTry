@@ -38,6 +38,7 @@ void Player::Control()
 	{
 		state = left;
 		speed = 0.1;
+		currentAnimation = &playerRight;
 		sprite.setScale(-1, 1);
 		//CurrentFrame += 0.005*time; //служит для прохождения по "кадрам". переменная доходит до трех суммируя произведение времени и скорости. изменив 0.005 можно изменить скорость анимации
 		//if (CurrentFrame > 3) CurrentFrame -= 3; // если пришли к третьему кадру - откидываемся назад.
@@ -47,6 +48,7 @@ void Player::Control()
 	{
 		state = right;
 		speed = 0.1;
+		currentAnimation = &playerRight;
 		sprite.setScale(1, 1);
 		//CurrentFrame += 0.005*time;
 		//if (CurrentFrame > 3) CurrentFrame -= 3;
@@ -104,7 +106,8 @@ void Player::Update(float _time)
 	if(!isMove) speed = 0;
 	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
 	dy += 0.0010*_time;
-	
+	currentAnimation->Play();
+	currentAnimation->Update(_time);
 }
 
 void Player::CheckCollisionWithMap(float _dx, float _dy)
@@ -231,18 +234,20 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 void Player::AnimationSetup()
 {
 	int frameNumberOfSuchType = 0;
-	//Animation playerStay;
+	
 	frameNumberOfSuchType = 8;
+	playerStay.SetSpriteSheet(texture);
 	for (int i = 0; i < frameNumberOfSuchType; i++)
 	{
 		playerStay.PushFrame(sf::IntRect((i*spriteWInImage) + 4, 18, spriteWInImage, spriteHInImage));
 	}
 
-	//Animation playerRight;
 	frameNumberOfSuchType = 8;
+	playerRight.SetSpriteSheet(texture);
 	for (int i = 0; i < frameNumberOfSuchType; i++)
 	{
 		playerRight.PushFrame(sf::IntRect((i*spriteWInImage) + 297, 102, spriteWInImage, spriteHInImage));
 	}
 
+	currentAnimation = &playerStay;
 }

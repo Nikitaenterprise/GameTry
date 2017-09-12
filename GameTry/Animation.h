@@ -1,22 +1,24 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <SFML\Graphics.hpp>
 #include "Entity.h"
 
-class Animation
+class Animation : public sf::Drawable, public sf::Transformable
 {
 public:
 
-	char* name;
 	float playSpeed;
 	float currentTime;
 	int currentFrame;
 	bool isPaused;
 	bool isLooped;
 
-	Animation(char* _name, float _playSpeed);
+	//explicit Animation(float _playSpeed);
 	Animation();
 	~Animation();
+
+	void virtual draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	std::vector<sf::IntRect> frames;
 	sf::Texture texture;

@@ -1,17 +1,20 @@
 #include "Animation.h"
 
-Animation::Animation(char* _name, float _playSpeed)
-{
-	name = _name;
-	playSpeed = _playSpeed;
-	currentFrame = 0;
-	isPaused = true;
-	
-	std::cout<<"Hi I`m animation class\n";
-}
+//Animation::Animation(float _playSpeed)
+//{
+//	playSpeed = _playSpeed;
+//	currentFrame = 0;
+//	isPaused = true;
+//	
+//	std::cout<<"Hi I`m animation class\n";
+//}
 
 Animation::Animation()
 {
+	playSpeed = 0.5;
+	currentFrame = 0;
+	isPaused = true;
+	std::cout << "Hi I`m animation class1\n";
 }
 
 Animation::~Animation()
@@ -64,7 +67,7 @@ void Animation::Pause()
 void Animation::Update(float time)
 {
 	if (!isPaused)
-	{
+	{		
 		currentTime += time;
 		if (currentTime >= playSpeed)
 		{

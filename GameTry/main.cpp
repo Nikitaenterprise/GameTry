@@ -213,7 +213,7 @@ int main()
 
 		window.draw(text);
 		window.draw(health_text);
-		window.draw(player1.sprite);
+		window.draw(player1.currentAnimation);
 		for (it = entities.begin(); it != entities.end(); it++)
 		{
 			window.draw((*it)->sprite);
