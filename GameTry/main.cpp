@@ -190,7 +190,7 @@ int main()
 			}
 			else it++;//и идем итератором к след объекту. так делаем со всеми объектами списка
 		}
-		
+		//player1.animatedSpriteDef->update();
 		//enemy1.Update(time);
 		MoveViewMap(time);
 		ChangeViewMap(time);
@@ -213,7 +213,8 @@ int main()
 
 		window.draw(text);
 		window.draw(health_text);
-		window.draw(player1.currentAnimation);
+		//window.draw(*player1.animatedSprite);
+		window.draw(player1.sprite);
 		for (it = entities.begin(); it != entities.end(); it++)
 		{
 			window.draw((*it)->sprite);

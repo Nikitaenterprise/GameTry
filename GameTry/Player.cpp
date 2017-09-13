@@ -14,8 +14,8 @@ Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 		sprite.setTextureRect(sf::IntRect(spriteXInImage, spriteYInImage, spriteWInImage, spriteHInImage));
 	}
 	AnimationSetup();
-	std::cout << playerStay.GetVectorSize() << std::endl;
-	std::cout << playerRight.GetVectorSize() << std::endl;
+	//std::cout << playerStay.getSize() << std::endl;
+	//std::cout << playerRight.getSize() << std::endl;
 }
 
 Player::~Player()
@@ -38,21 +38,11 @@ void Player::Control()
 	{
 		state = left;
 		speed = 0.1;
-		currentAnimation = &playerRight;
-		sprite.setScale(-1, 1);
-		//CurrentFrame += 0.005*time; //служит для прохождения по "кадрам". переменная доходит до трех суммируя произведение времени и скорости. изменив 0.005 можно изменить скорость анимации
-		//if (CurrentFrame > 3) CurrentFrame -= 3; // если пришли к третьему кадру - откидываемся назад.
-		//player1.sprite.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 96, 96, 96)); //проходимся по координатам Х. получается начинаем рисование с координаты Х равной 0,96,96*2, и опять 0
 	}
 	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || (sf::Keyboard::isKeyPressed(sf::Keyboard::D))))
 	{
 		state = right;
 		speed = 0.1;
-		currentAnimation = &playerRight;
-		sprite.setScale(1, 1);
-		//CurrentFrame += 0.005*time;
-		//if (CurrentFrame > 3) CurrentFrame -= 3;
-		//player1.sprite.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 192, 96, 96));
 	}
 	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || (sf::Keyboard::isKeyPressed(sf::Keyboard::W)))&&(onGround))
 	{
@@ -60,17 +50,11 @@ void Player::Control()
 		speed = 0.1;
 		dy = -0.5;
 		onGround = false;
-		//CurrentFrame += 0.005*time;
-		//if (CurrentFrame > 3) CurrentFrame -= 3;
-		//player1.sprite.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 306, 96, 96));
 	}
 	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || (sf::Keyboard::isKeyPressed(sf::Keyboard::S))))
 	{
 		state = down;
 		speed = 0.1;
-		//CurrentFrame += 0.005*time;
-		//if (CurrentFrame > 3) CurrentFrame -= 3;
-		//player1.sprite.setTextureRect(sf::IntRect(96 * int(CurrentFrame), 6, 96, 96));
 	}
 	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) && (onGround))
 	{
@@ -78,6 +62,12 @@ void Player::Control()
 		dy = -0.2;
 		speed = 0.1;
 		onGround = false;
+	}
+	else if (onGround)
+	{
+		state = stay;
+		dx = 0;
+		dy = 0;
 	}
 }
 
@@ -88,15 +78,18 @@ void Player::Update(float _time)
 	{
 	case left:
 		dx = -speed;
+		currentAnimation = &playerLeft;
 		break;
 	case up:
 		break;
 	case right:
 		dx = speed;
+		currentAnimation = &playerRight;
 		break;
 	case down:
 		break;
 	case stay:
+		currentAnimation = &playerStay;
 		break;
 	}
 	x += dx*_time;
@@ -104,10 +97,17 @@ void Player::Update(float _time)
 	y += dy*_time;
 	CheckCollisionWithMap(0, dy);
 	if(!isMove) speed = 0;
-	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
+	sprite = currentAnimation->GetFrameSprite(currentAnimation->GetFrame(currentAnimation->currentFrame));
+	sprite.setPosition(x , y );
 	dy += 0.0010*_time;
 	currentAnimation->Play();
 	currentAnimation->Update(_time);
+	//currentAnimation->GetFrame(currentAnimation->currentFrame);
+	
+	/*AnimatedSprite animatedSprite(sf::seconds(0.2), true, false);
+	animatedSpriteDef = &animatedSprite;
+	animatedSprite.setPosition(x, y);*/
+
 }
 
 void Player::CheckCollisionWithMap(float _dx, float _dy)
@@ -233,21 +233,29 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 
 void Player::AnimationSetup()
 {
-	int frameNumberOfSuchType = 0;
-	
-	frameNumberOfSuchType = 8;
 	playerStay.SetSpriteSheet(texture);
-	for (int i = 0; i < frameNumberOfSuchType; i++)
-	{
-		playerStay.PushFrame(sf::IntRect((i*spriteWInImage) + 4, 18, spriteWInImage, spriteHInImage));
-	}
-
-	frameNumberOfSuchType = 8;
+	playerStay.PushFrame(sf::IntRect(4, 18, spriteWInImage, spriteHInImage));
+	playerStay.PushFrame(sf::IntRect(48, 18, spriteWInImage, spriteHInImage));
+	playerStay.PushFrame(sf::IntRect(98, 18, spriteWInImage, spriteHInImage));
+	playerStay.PushFrame(sf::IntRect(146, 18, spriteWInImage, spriteHInImage));
+	playerStay.PushFrame(sf::IntRect(194, 18, spriteWInImage, spriteHInImage));
+	playerStay.PushFrame(sf::IntRect(242, 18, spriteWInImage, spriteHInImage));
+	playerStay.PushFrame(sf::IntRect(288, 18, spriteWInImage, spriteHInImage));
+	playerStay.PushFrame(sf::IntRect(338, 18, spriteWInImage, spriteHInImage));
+	
 	playerRight.SetSpriteSheet(texture);
-	for (int i = 0; i < frameNumberOfSuchType; i++)
-	{
-		playerRight.PushFrame(sf::IntRect((i*spriteWInImage) + 297, 102, spriteWInImage, spriteHInImage));
-	}
+	playerRight.PushFrame(sf::IntRect(297, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(342, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(387, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(431, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(474, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(521, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(565, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(610, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(656, 102, spriteWInImage, spriteHInImage));
+
+	playerLeft = playerRight;
+	playerLeft.IsSpriteReversed(true);
 
 	currentAnimation = &playerStay;
 }

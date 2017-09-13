@@ -4,7 +4,8 @@
 #include <list>
 #include <SFML\Graphics.hpp>
 #include "level.h"
-#include "Animation.h"
+#include "My_Animation.h"
+//#include "AnimatedSprite.h"
 
 
 class Entity
