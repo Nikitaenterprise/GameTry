@@ -67,7 +67,7 @@ void Player::Control()
 	{
 		state = stay;
 		dx = 0;
-		dy = 0;
+		dy = 0.2;
 	}
 }
 
@@ -81,6 +81,7 @@ void Player::Update(float _time)
 		currentAnimation = &playerLeft;
 		break;
 	case up:
+		currentAnimation = &playerJump;
 		break;
 	case right:
 		dx = speed;
@@ -97,8 +98,8 @@ void Player::Update(float _time)
 	y += dy*_time;
 	CheckCollisionWithMap(0, dy);
 	if(!isMove) speed = 0;
-	sprite = currentAnimation->GetFrameSprite(currentAnimation->GetFrame(currentAnimation->currentFrame));
-	sprite.setPosition(x , y );
+	sprite = currentAnimation->GetFrameSprite(currentAnimation->GetFrame(currentAnimation->GetCurrentFrame()));
+	sprite.setPosition(x, y);
 	dy += 0.0010*_time;
 	currentAnimation->Play();
 	currentAnimation->Update(_time);
@@ -234,28 +235,46 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 void Player::AnimationSetup()
 {
 	playerStay.SetSpriteSheet(texture);
+	playerStay.IsSpriteReversed(false);
 	playerStay.PushFrame(sf::IntRect(4, 18, spriteWInImage, spriteHInImage));
-	playerStay.PushFrame(sf::IntRect(48, 18, spriteWInImage, spriteHInImage));
+	playerStay.PushFrame(sf::IntRect(52, 18, spriteWInImage, spriteHInImage));
 	playerStay.PushFrame(sf::IntRect(98, 18, spriteWInImage, spriteHInImage));
 	playerStay.PushFrame(sf::IntRect(146, 18, spriteWInImage, spriteHInImage));
 	playerStay.PushFrame(sf::IntRect(194, 18, spriteWInImage, spriteHInImage));
 	playerStay.PushFrame(sf::IntRect(242, 18, spriteWInImage, spriteHInImage));
 	playerStay.PushFrame(sf::IntRect(288, 18, spriteWInImage, spriteHInImage));
-	playerStay.PushFrame(sf::IntRect(338, 18, spriteWInImage, spriteHInImage));
+	playerStay.PushFrame(sf::IntRect(336, 18, spriteWInImage, spriteHInImage));
 	
 	playerRight.SetSpriteSheet(texture);
-	playerRight.PushFrame(sf::IntRect(297, 102, spriteWInImage, spriteHInImage));
+	playerRight.SetPlaySpeed(80);
+	playerStay.IsSpriteReversed(false);
+	playerRight.PushFrame(sf::IntRect(298, 102, spriteWInImage, spriteHInImage));
 	playerRight.PushFrame(sf::IntRect(342, 102, spriteWInImage, spriteHInImage));
 	playerRight.PushFrame(sf::IntRect(387, 102, spriteWInImage, spriteHInImage));
 	playerRight.PushFrame(sf::IntRect(431, 102, spriteWInImage, spriteHInImage));
 	playerRight.PushFrame(sf::IntRect(474, 102, spriteWInImage, spriteHInImage));
 	playerRight.PushFrame(sf::IntRect(521, 102, spriteWInImage, spriteHInImage));
-	playerRight.PushFrame(sf::IntRect(565, 102, spriteWInImage, spriteHInImage));
-	playerRight.PushFrame(sf::IntRect(610, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(566, 102, spriteWInImage, spriteHInImage));
+	playerRight.PushFrame(sf::IntRect(609, 102, spriteWInImage, spriteHInImage));
 	playerRight.PushFrame(sf::IntRect(656, 102, spriteWInImage, spriteHInImage));
 
 	playerLeft = playerRight;
-	playerLeft.IsSpriteReversed(true);
+	playerLeft.IsSpriteReversed(false);
+
+	playerJump.SetSpriteSheet(texture);
+	playerJump.SetPlaySpeed(100);
+	playerJump.IsSpriteReversed(false);
+	playerJump.PushFrame(sf::IntRect(10, 338, 19, 53));
+	playerJump.PushFrame(sf::IntRect(39, 338, 19, 53));
+	playerJump.PushFrame(sf::IntRect(65, 338, 19, 53));
+	playerJump.PushFrame(sf::IntRect(91, 338, 19, 53));
+	playerJump.PushFrame(sf::IntRect(116, 338, 19, 53));
+	playerJump.PushFrame(sf::IntRect(142, 338, 19, 53));
+	playerJump.PushFrame(sf::IntRect(168, 338, 19, 53));
+	playerJump.PushFrame(sf::IntRect(197, 338, 19, 53));
+	playerJump.PushFrame(sf::IntRect(226, 338, 19, 53));
+	playerJump.PushFrame(sf::IntRect(258, 338, 34, 53));
+	playerJump.PushFrame(sf::IntRect(293, 338, 34, 53));
 
 	currentAnimation = &playerStay;
 }

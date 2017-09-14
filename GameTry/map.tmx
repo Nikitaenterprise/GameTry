@@ -2768,8 +2768,8 @@
    <tile gid="1037"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="1037"/>
-   <tile gid="1037"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="1037"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -3611,7 +3611,7 @@
   <object id="1" name="solid" x="32" y="832" width="1152" height="128"/>
   <object id="3" name="solid" x="0" y="416" width="32.5" height="544"/>
   <object id="4" name="solid" x="32" y="768" width="352" height="64"/>
-  <object id="5" name="solid" x="96" y="736" width="95.5" height="31.167"/>
+  <object id="5" name="solid" x="160" y="736" width="31.5" height="31.167"/>
   <object id="6" name="solid" x="800" y="800" width="160" height="32"/>
   <object id="7" name="solid" x="832" y="768" width="128" height="32"/>
   <object id="8" name="solid" x="960" y="800" width="192" height="32"/>

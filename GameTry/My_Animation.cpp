@@ -14,10 +14,15 @@ Animation::~Animation()
 	std::cout << "Bye I was animation class\n";
 }
 
-void Animation::SetSpriteSheet(sf::Texture & _texture)
+void Animation::SetSpriteSheet(sf::Texture &_texture)
 {
-	texture = _texture;
-	sprite.setTexture(texture);
+	texture = &_texture;
+	sprite.setTexture(*texture);
+}
+
+void Animation::SetPlaySpeed(float _playSpeed)
+{
+	playSpeed = _playSpeed;
 }
 
 void Animation::PushFrame(sf::IntRect _frame)
@@ -32,9 +37,22 @@ void Animation::PushFrame(int _spriteXInImage, int _spriteYInImage, int _spriteW
 	std::cout << "Frame pushed by second push\n";
 }
 
+void Animation::PushAllFrames(int _spriteStartXInImage, int _spriteStartYInImage, int _spriteWInImage, int _spriteHInImage, int _gapValue, int _numberOfFrames)
+{
+	for (int i = 0; i < _numberOfFrames; i++)
+	{
+		frames.push_back(sf::IntRect(_spriteStartXInImage+i*(_gapValue+ _spriteWInImage), _spriteStartYInImage, _spriteWInImage, _spriteHInImage));
+	}
+}
+
 const sf::IntRect & Animation::GetFrame(std::size_t n) const
 {
 	return frames[n];
+}
+
+std::size_t Animation::GetCurrentFrame()
+{
+	return currentFrame;
 }
 
 sf::Sprite & Animation::GetFrameSprite(sf::IntRect rect)
@@ -57,7 +75,11 @@ void Animation::IsSpriteReversed(bool state)
 {
 	if (state)
 	{
-		sprite.scale(-1, 1);
+		isSpriteReversed = state;
+	}
+	if (!state)
+	{
+		isSpriteReversed = state;
 	}
 }
 
@@ -77,7 +99,7 @@ void Animation::Update(float time)
 	if (!isPaused)
 	{		
 		currentTime += time;
-		std::cout << currentTime << " " << currentFrame << " " << playSpeed << " " << time << std::endl;
+		//std::cout << currentTime << " " << currentFrame << " " << playSpeed << " " << time << std::endl;
 		if (currentTime >= playSpeed)
 		{
 			currentTime = 0;
@@ -94,15 +116,14 @@ void Animation::Update(float time)
 					isPaused = true;
 				}
 			}
-			SetFrame(currentFrame);
+			if (isSpriteReversed)
+			{
+				sprite.setScale(-1, 1);
+			}
+			else if (!isSpriteReversed)
+			{
+				sprite.setScale(1, 1);
+			}
 		}
 	}
 }
-
-//void Animation::draw(sf::RenderTarget & target, sf::RenderStates states) const
-//{
-//	states.transform *= getTransform();
-//	states.texture = texture;
-//	
-//	target.draw(m_vertices, 4, sf::Quads, states);
-//}
