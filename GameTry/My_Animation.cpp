@@ -6,12 +6,10 @@ Animation::Animation()
 	currentTime = 0;
 	currentFrame = 0;
 	isPaused = true;
-	std::cout << "Hi I`m animation class1\n";
 }
 
 Animation::~Animation()
 {
-	std::cout << "Bye I was animation class\n";
 }
 
 void Animation::SetSpriteSheet(sf::Texture &_texture)
@@ -28,13 +26,11 @@ void Animation::SetPlaySpeed(float _playSpeed)
 void Animation::PushFrame(sf::IntRect _frame)
 {
 	frames.push_back(_frame);
-	std::cout << "Frame pushed by first push\n";
 }
 
 void Animation::PushFrame(int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage)
 {
 	frames.push_back(sf::IntRect(_spriteXInImage, _spriteYInImage, _spriteWInImage, _spriteHInImage));
-	std::cout << "Frame pushed by second push\n";
 }
 
 void Animation::PushAllFrames(int _spriteStartXInImage, int _spriteStartYInImage, int _spriteWInImage, int _spriteHInImage, int _gapValue, int _numberOfFrames)
@@ -64,6 +60,16 @@ sf::Sprite & Animation::GetFrameSprite(sf::IntRect rect)
 void Animation::SetFrame(std::size_t _frame)
 {
 	currentFrame = _frame;
+}
+
+void Animation::SetOrigin(int spriteWInImage, int spriteHInImage)
+{
+	sprite.setOrigin(spriteWInImage / 2, spriteHInImage / 2);
+}
+
+void Animation::SetOrigin(int spriteWInImage)
+{
+	sprite.setOrigin(spriteWInImage / 2, 1);
 }
 
 std::size_t Animation::GetVectorSize()
@@ -96,29 +102,28 @@ void Animation::Pause()
 
 void Animation::Update(float time)
 {
-	if (!isPaused)
+	if (!this->isPaused)
 	{		
-		currentTime += time;
-		//std::cout << currentTime << " " << currentFrame << " " << playSpeed << " " << time << std::endl;
-		if (currentTime >= playSpeed)
+		this->currentTime += time;
+		if (this->currentTime >= this->playSpeed)
 		{
 			currentTime = 0;
-			if (currentFrame + 1 < this->GetVectorSize())
+			if (this->currentFrame + 1 < this->GetVectorSize())
 			{
-				currentFrame++;
+				this->currentFrame++;
 			}
 			else
 			{
-				currentFrame = 0;
+				this->currentFrame = 0;
 				
-				if (!isLooped)
+				if (!this->isLooped)
 				{
-					isPaused = true;
+					this->isPaused = true;
 				}
 			}
-			if (isSpriteReversed)
+			if (this->isSpriteReversed)
 			{
-				sprite.setScale(-1, 1);
+				this->sprite.setScale(-1, 1);
 			}
 			else if (!isSpriteReversed)
 			{

@@ -19,6 +19,8 @@ public:
 	std::size_t GetCurrentFrame();
 	sf::Sprite & GetFrameSprite(sf::IntRect rect);
 	void SetFrame(std::size_t _frame);
+	void SetOrigin(int spriteWInImage, int spriteHInImage);
+	void SetOrigin(int spriteWInImage);
 	std::size_t GetVectorSize();
 	void IsSpriteReversed(bool state);
 

@@ -18,7 +18,7 @@ public:
 	int health;
 	bool isLive, isMove, onGround;
 
-	//Animation *currentAnimation;
+	Animation *currentAnimation;
 
 	sf::String name;
 	sf::String file;

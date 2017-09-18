@@ -14,8 +14,6 @@ Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 		sprite.setTextureRect(sf::IntRect(spriteXInImage, spriteYInImage, spriteWInImage, spriteHInImage));
 	}
 	AnimationSetup();
-	//std::cout << playerStay.getSize() << std::endl;
-	//std::cout << playerRight.getSize() << std::endl;
 }
 
 Player::~Player()
@@ -44,10 +42,9 @@ void Player::Control()
 		state = right;
 		speed = 0.1;
 	}
-	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || (sf::Keyboard::isKeyPressed(sf::Keyboard::W)))&&(onGround))
+	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || (sf::Keyboard::isKeyPressed(sf::Keyboard::W)))&&(onGround||onPlatform))
 	{
 		state = up;
-		speed = 0.1;
 		dy = -0.5;
 		onGround = false;
 	}
@@ -56,23 +53,16 @@ void Player::Control()
 		state = down;
 		speed = 0.1;
 	}
-	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) && (onGround))
-	{
-		state = up;
-		dy = -0.2;
-		speed = 0.1;
-		onGround = false;
-	}
 	else if (onGround)
 	{
 		state = stay;
 		dx = 0;
-		dy = 0.2;
 	}
 }
 
 void Player::Update(float _time)
 {
+
 	Control();
 	switch (state)
 	{
@@ -99,16 +89,11 @@ void Player::Update(float _time)
 	CheckCollisionWithMap(0, dy);
 	if(!isMove) speed = 0;
 	sprite = currentAnimation->GetFrameSprite(currentAnimation->GetFrame(currentAnimation->GetCurrentFrame()));
-	sprite.setPosition(x, y);
+	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
 	dy += 0.0010*_time;
 	currentAnimation->Play();
 	currentAnimation->Update(_time);
-	//currentAnimation->GetFrame(currentAnimation->currentFrame);
-	
-	/*AnimatedSprite animatedSprite(sf::seconds(0.2), true, false);
-	animatedSpriteDef = &animatedSprite;
-	animatedSprite.setPosition(x, y);*/
-
+	onPlatform = false;
 }
 
 void Player::CheckCollisionWithMap(float _dx, float _dy)
@@ -118,10 +103,25 @@ void Player::CheckCollisionWithMap(float _dx, float _dy)
 		{
 			if (obj[i].name == "solid")//если встретили препятствие
 			{
-				if (_dy>0) { y = obj[i].rect.top - spriteHInImage;  dy = 0; onGround = true; }
-				if (_dy<0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
-				if (_dx>0) { x = obj[i].rect.left - spriteWInImage; }
-				if (_dx<0) { x = obj[i].rect.left + obj[i].rect.width; }
+				if (_dy>0) 
+				{ 
+					y = obj[i].rect.top - spriteHInImage;
+					dy = 0;
+					onGround = true; 
+				}
+				if (_dy<0) 
+				{ 
+					y = obj[i].rect.top + obj[i].rect.height;
+					dy = 0;
+				}
+				if (_dx>0) 
+				{
+					x = obj[i].rect.left - spriteWInImage;
+				}
+				if (_dx<0) 
+				{ 
+					x = obj[i].rect.left + obj[i].rect.width;
+				}
 			}
 		}
 }
@@ -214,18 +214,20 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 				this->health -= 5;	//иначе враг подошел к нам сбоку и нанес урон
 			}
 		}
+		
 		if ((*it)->name == "SimplePlatform")
 		{
-
-			if (this->y + this->spriteHInImage < (*it)->y + (*it)->spriteHInImage)
+			if (this->y + this->spriteHInImage < (*it)->y + (*it)->spriteHInImage*2)
 			{
-				this->dx = 0;
 				//если игрок находится выше платформы, т.е это его ноги минимум (тк мы уже проверяли что он столкнулся с платформой)
-				if (this->dy > 0 && this->onGround == false)
+				if (this->y > 0 && !this->onGround)
 				{
 					this->x += 2*(*it)->dx*_time;
+					this->dx = 0;
 					this->y = (*it)->y - this->spriteHInImage;
 					this->dy = 0;
+					this->state = stay;
+					onPlatform = true;
 				}
 			}
 		}
@@ -236,6 +238,7 @@ void Player::AnimationSetup()
 {
 	playerStay.SetSpriteSheet(texture);
 	playerStay.IsSpriteReversed(false);
+	playerStay.SetOrigin(spriteWInImage, spriteHInImage);
 	playerStay.PushFrame(sf::IntRect(4, 18, spriteWInImage, spriteHInImage));
 	playerStay.PushFrame(sf::IntRect(52, 18, spriteWInImage, spriteHInImage));
 	playerStay.PushFrame(sf::IntRect(98, 18, spriteWInImage, spriteHInImage));
@@ -247,7 +250,8 @@ void Player::AnimationSetup()
 	
 	playerRight.SetSpriteSheet(texture);
 	playerRight.SetPlaySpeed(80);
-	playerStay.IsSpriteReversed(false);
+	playerRight.IsSpriteReversed(false);
+	playerRight.SetOrigin(spriteWInImage, spriteHInImage);
 	playerRight.PushFrame(sf::IntRect(298, 102, spriteWInImage, spriteHInImage));
 	playerRight.PushFrame(sf::IntRect(342, 102, spriteWInImage, spriteHInImage));
 	playerRight.PushFrame(sf::IntRect(387, 102, spriteWInImage, spriteHInImage));
@@ -259,22 +263,23 @@ void Player::AnimationSetup()
 	playerRight.PushFrame(sf::IntRect(656, 102, spriteWInImage, spriteHInImage));
 
 	playerLeft = playerRight;
-	playerLeft.IsSpriteReversed(false);
+	playerLeft.IsSpriteReversed(true);
 
 	playerJump.SetSpriteSheet(texture);
-	playerJump.SetPlaySpeed(100);
+	playerJump.SetPlaySpeed(110);
 	playerJump.IsSpriteReversed(false);
-	playerJump.PushFrame(sf::IntRect(10, 338, 19, 53));
-	playerJump.PushFrame(sf::IntRect(39, 338, 19, 53));
-	playerJump.PushFrame(sf::IntRect(65, 338, 19, 53));
-	playerJump.PushFrame(sf::IntRect(91, 338, 19, 53));
-	playerJump.PushFrame(sf::IntRect(116, 338, 19, 53));
-	playerJump.PushFrame(sf::IntRect(142, 338, 19, 53));
-	playerJump.PushFrame(sf::IntRect(168, 338, 19, 53));
-	playerJump.PushFrame(sf::IntRect(197, 338, 19, 53));
-	playerJump.PushFrame(sf::IntRect(226, 338, 19, 53));
+	playerJump.SetOrigin(20, 53);
+	playerJump.PushFrame(sf::IntRect(10, 338, 20, 53));
+	playerJump.PushFrame(sf::IntRect(39, 338, 20, 53));
+	playerJump.PushFrame(sf::IntRect(65, 338, 20, 53));
+	playerJump.PushFrame(sf::IntRect(91, 338, 20, 53));
+	playerJump.PushFrame(sf::IntRect(116, 338, 20, 53));
+	playerJump.PushFrame(sf::IntRect(142, 338, 20, 53));
+	playerJump.PushFrame(sf::IntRect(168, 338, 20, 53));
+	playerJump.PushFrame(sf::IntRect(197, 338, 30, 53));
+	playerJump.PushFrame(sf::IntRect(226, 338, 30, 53));
 	playerJump.PushFrame(sf::IntRect(258, 338, 34, 53));
 	playerJump.PushFrame(sf::IntRect(293, 338, 34, 53));
 
-	currentAnimation = &playerStay;
+	currentAnimation = &playerJump;
 }
