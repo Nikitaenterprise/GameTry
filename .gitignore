@@ -1,6 +1,7 @@
 *.exe
 *.db
 .vs
+.VC.VC.opendb
 .opendb
 .vcxproj
 *.vcxproj
