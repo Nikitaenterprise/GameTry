@@ -62,7 +62,6 @@ void Player::Control()
 
 void Player::Update(float _time)
 {
-
 	Control();
 	switch (state)
 	{
@@ -83,6 +82,7 @@ void Player::Update(float _time)
 		currentAnimation = &playerStay;
 		break;
 	}
+	if (!onGround) std::cout << playerJump.GetCurrentFrame() << std::endl;
 	x += dx*_time;
 	CheckCollisionWithMap(dx, 0);
 	y += dy*_time;

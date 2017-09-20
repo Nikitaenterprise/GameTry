@@ -73,7 +73,7 @@ int main()
 	{
 		entities.push_back(new Enemy(hero_image, "EasyEnemy", level, e[i].rect.left, e[i].rect.top, 4, 19, 40, 30));
 	}
-
+	
 	//создание платформ
 	e = level.GetObjects("MovingPlatform");
 	for (int i = 0; i < e.size(); i++)

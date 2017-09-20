@@ -26,6 +26,7 @@ public:
 
 	void Play();
 	void Pause();
+	void Stop();
 	void Update(float time);
 
 private:

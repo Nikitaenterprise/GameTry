@@ -100,6 +100,11 @@ void Animation::Pause()
 	isPaused = true;
 }
 
+void Animation::Stop()
+{
+	currentFrame = 0;
+}
+
 void Animation::Update(float time)
 {
 	if (!this->isPaused)
