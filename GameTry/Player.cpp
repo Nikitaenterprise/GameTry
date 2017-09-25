@@ -1,7 +1,11 @@
 #pragma once
 #include "Player.h"
 
-Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage) : 
+Player::Player()
+{
+}
+
+Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, float _y, int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage) :
 	Entity(_image, _name, _x, _y, _spriteXInImage, _spriteYInImage, _spriteWInImage, _spriteHInImage)
 {
 	obj = _level.GetAllObjects();//инициализируем.получаем все объекты для взаимодействия персонажа с картой	
@@ -14,6 +18,11 @@ Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 		sprite.setTextureRect(sf::IntRect(spriteXInImage, spriteYInImage, spriteWInImage, spriteHInImage));
 	}
 	AnimationSetup();
+
+	bird.texture.loadFromFile("images/bird.png");
+	bird.sprite.setTexture(bird.texture);
+	bird.sprite.setScale(0.5, 0.5);
+	bird.AnimationSetup();
 }
 
 Player::~Player()
@@ -35,23 +44,29 @@ void Player::Control()
 	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || (sf::Keyboard::isKeyPressed(sf::Keyboard::A))))
 	{
 		state = left;
-		speed = 0.1;
+		speed = static_cast<float>(0.1);
 	}
 	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || (sf::Keyboard::isKeyPressed(sf::Keyboard::D))))
 	{
 		state = right;
-		speed = 0.1;
+		speed = static_cast<float>(0.1);
 	}
-	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || (sf::Keyboard::isKeyPressed(sf::Keyboard::W)))&&(onGround||onPlatform))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)&&(onGround||onPlatform))
 	{
-		state = up;
+		state = jump;
 		dy = -0.5;
 		onGround = false;
+	}
+	else if((sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && onLadder)
+	{
+		y -= float(1.0);
+		dy = float(0);
+		state = up;
 	}
 	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || (sf::Keyboard::isKeyPressed(sf::Keyboard::S))))
 	{
 		state = down;
-		speed = 0.1;
+		speed = static_cast<float>(0.1);
 	}
 	else if (onGround)
 	{
@@ -69,7 +84,7 @@ void Player::Update(float _time)
 		dx = -speed;
 		currentAnimation = &playerLeft;
 		break;
-	case up:
+	case jump:
 		currentAnimation = &playerJump;
 		break;
 	case right:
@@ -81,6 +96,9 @@ void Player::Update(float _time)
 	case stay:
 		currentAnimation = &playerStay;
 		break;
+	case up:
+		currentAnimation = &playerUp;
+		break;
 	}
 	if (!onGround) std::cout << playerJump.GetCurrentFrame() << std::endl;
 	x += dx*_time;
@@ -90,6 +108,9 @@ void Player::Update(float _time)
 	if(!isMove) speed = 0;
 	sprite = currentAnimation->GetFrameSprite(currentAnimation->GetFrame(currentAnimation->GetCurrentFrame()));
 	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
+
+	bird->setCoordinates(*this);
+
 	dy += 0.0010*_time;
 	currentAnimation->Play();
 	currentAnimation->Update(_time);
@@ -105,24 +126,26 @@ void Player::CheckCollisionWithMap(float _dx, float _dy)
 			{
 				if (_dy>0) 
 				{ 
-					y = obj[i].rect.top - spriteHInImage;
-					dy = 0;
-					onGround = true; 
+					this->y = obj[i].rect.top - spriteHInImage;
+					this->dy = 0;
+					this->onGround = true;
 				}
 				if (_dy<0) 
 				{ 
-					y = obj[i].rect.top + obj[i].rect.height;
-					dy = 0;
+					this->y = obj[i].rect.top + obj[i].rect.height;
+					this->dy = 0;
 				}
 				if (_dx>0) 
 				{
-					x = obj[i].rect.left - spriteWInImage;
+					this->x = obj[i].rect.left - spriteWInImage;
 				}
 				if (_dx<0) 
 				{ 
-					x = obj[i].rect.left + obj[i].rect.width;
+					this->x = obj[i].rect.left + obj[i].rect.width;
 				}
 			}
+			if (obj[i].name == "ladder") onLadder = true;
+			if (obj[i].name != "ladder") onLadder = false;
 		}
 }
 
@@ -190,7 +213,7 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 				//если прыгнули на врага,то даем врагу скорость 0,отпрыгиваем от него чуть вверх,даем ему здоровье 0
 				//или если соскочили а не прыгнули
 				(*it)->dx = 0; 
-				this->dy = -0.2;
+				this->dy = static_cast<float>(-0.2);
 				(*it)->health = 0; 
 			}
 			if ((*it)->dx > 0)
@@ -199,7 +222,7 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 				(*it)->x = this->x - (*it)->spriteWInImage;
 				(*it)->dx *= -1;
 				(*it)->sprite.scale(-1, 1);
-				(*it)->dy = -0.3;
+				(*it)->dy = static_cast<float>(-0.3);
 			}
 			else if ((*it)->dx < 0)
 			{
@@ -207,7 +230,7 @@ void Player::IntersectionWithEntities(std::list <Entity*>::iterator & it, float 
 				(*it)->x = this->x + (*it)->spriteWInImage;
 				(*it)->dx *= -1;
 				(*it)->sprite.scale(-1, 1);
-				(*it)->dy = -0.3;
+				(*it)->dy = static_cast<float>(-0.3);
 			}
 			else
 			{
@@ -264,6 +287,15 @@ void Player::AnimationSetup()
 
 	playerLeft = playerRight;
 	playerLeft.IsSpriteReversed(true);
+
+	playerUp.SetSpriteSheet(texture);
+	playerUp.SetPlaySpeed(80);
+	playerUp.PushFrame(sf::IntRect(303, 440, 41, 48));
+	playerUp.PushFrame(sf::IntRect(345, 440, 41, 48));
+	playerUp.PushFrame(sf::IntRect(384, 440, 41, 48));
+	playerUp.PushFrame(sf::IntRect(426, 440, 41, 48));
+	playerUp.PushFrame(sf::IntRect(469, 440, 41, 48));
+	playerUp.PushFrame(sf::IntRect(510, 440, 41, 48));
 
 	playerJump.SetSpriteSheet(texture);
 	playerJump.SetPlaySpeed(110);

@@ -27,6 +27,7 @@ public:
 	sf::Sprite sprite;
 	std::vector<Object> obj;
 
+	Entity();
 	Entity(sf::Image & _image, sf::String _name, float _x, float _y, int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage);
 	~Entity();
 	sf::FloatRect GetRect();

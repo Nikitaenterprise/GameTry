@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Bird.cpp" />
     <ClCompile Include="My_Animation.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -170,6 +171,8 @@
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Bird.h" />
+    <ClInclude Include="headers.h" />
     <ClInclude Include="My_Animation.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Enemy.h" />

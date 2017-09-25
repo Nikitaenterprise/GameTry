@@ -69,6 +69,9 @@
     <ClCompile Include="AnimatedSprite.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="Bird.cpp">
+      <Filter>Файлы исходного кода\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="view.h">
@@ -109,6 +112,12 @@
     </ClInclude>
     <ClInclude Include="AnimatedSprite.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="headers.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Bird.h">
+      <Filter>Заголовочные файлы\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

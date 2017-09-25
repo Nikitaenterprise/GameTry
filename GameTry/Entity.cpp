@@ -1,5 +1,9 @@
 #include "Entity.h"
 
+Entity::Entity()
+{
+}
+
 Entity::Entity(sf::Image & _image, sf::String _name, float _x, float _y, int _spriteXInImage, int _spriteYInImage, int _spriteWInImage, int _spriteHInImage)
 {
 	x = _x; y = _y; 

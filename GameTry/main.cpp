@@ -1,21 +1,5 @@
 #pragma once
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <list>
-#include <SFML/Graphics.hpp>
-
-#include "Entity.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "MovingPlatform.h"
-#include "Bullet.h"
-#include "Animation.h"
-
-#include "level.h"
-#include "view.h"
-
-#include "Mission.h"
+#include "headers.h"
 
 int main()
 {
@@ -96,7 +80,7 @@ int main()
 	while (window.isOpen())
 	{
 		
-		float time = clock.getElapsedTime().asMicroseconds();
+		float time = static_cast<float>(clock.getElapsedTime().asMicroseconds());
 		if (player1.isLive) timeOfGame= gameTimeClock.getElapsedTime().asSeconds();
 		clock.restart();
 		time = time / 800;
@@ -122,7 +106,7 @@ int main()
 						std::ostringstream playerHealthString;//строка здоровья игрока
 						playerHealthString << player1.health; //заносим в строку здоровье 
 						std::ostringstream task;//строка текста миссии
-						task << getTextMission(GetCurrentMission(player1.GetPlayerCoordinateX()));//вызывается функция GetTextMission (она возвращает текст миссии), которая принимает в качестве аргумента функцию getCurrentMission(возвращающую номер миссии), а уже эта ф-ция принимает в качестве аргумента функцию p.getplayercoordinateX() (эта ф-ция возвращает Икс координату игрока)
+						task << getTextMission(GetCurrentMission(static_cast<int>(player1.GetPlayerCoordinateX())));//вызывается функция GetTextMission (она возвращает текст миссии), которая принимает в качестве аргумента функцию getCurrentMission(возвращающую номер миссии), а уже эта ф-ция принимает в качестве аргумента функцию p.getplayercoordinateX() (эта ф-ция возвращает Икс координату игрока)
 						text.setString("Здоровье: " + playerHealthString.str() + "\n" + task.str());//задаем
 						text.setScale(0.7f, 0.7f);
 						text.setPosition(view.getCenter().x + 125, view.getCenter().y - 140);//позиция всего этого текстового блока
