@@ -27,7 +27,7 @@ public:
 	Animation playerUp;
 	Animation playerJump;
 
-	Bird bird;
+	Bird *bird;
 
 	float GetPlayerCoordinateX();
 	float GetPlayerCoordinateY();

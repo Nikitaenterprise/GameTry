@@ -21,11 +21,11 @@ Bird::~Bird()
 void Bird::AnimationSetup()
 {
 	flyingLeft.SetSpriteSheet(texture);
-
+	sprite.scale(-1, 1);
 }
 
 void Bird::setCoordinates(const Player & obj)
 {
 	this->x = obj.x - obj.spriteWInImage / 2;
-	this->y = obj.y - obj.spriteHInImage / 2;
+	this->y = obj.y - 2*obj.spriteHInImage / 2;
 }

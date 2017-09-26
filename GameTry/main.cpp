@@ -199,6 +199,7 @@ int main()
 		window.draw(health_text);
 		//window.draw(*player1.animatedSprite);
 		window.draw(player1.sprite);
+		window.draw(player1.bird->sprite);
 		for (it = entities.begin(); it != entities.end(); it++)
 		{
 			window.draw((*it)->sprite);

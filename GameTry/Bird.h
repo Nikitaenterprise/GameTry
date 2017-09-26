@@ -9,7 +9,7 @@ public:
 	~Bird();
 
 	Animation flyingLeft;
-
+	
 	void AnimationSetup();
 	void setCoordinates(const Player & obj);
 };

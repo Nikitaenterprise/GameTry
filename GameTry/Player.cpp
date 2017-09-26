@@ -19,10 +19,11 @@ Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 	}
 	AnimationSetup();
 
-	bird.texture.loadFromFile("images/bird.png");
-	bird.sprite.setTexture(bird.texture);
-	bird.sprite.setScale(0.5, 0.5);
-	bird.AnimationSetup();
+	bird = new Bird;
+	bird->texture.loadFromFile("images/bird.png");
+	bird->sprite.setTexture(bird->texture);
+	bird->sprite.setScale(0.2, 0.2);
+	bird->AnimationSetup();
 }
 
 Player::~Player()
@@ -108,9 +109,10 @@ void Player::Update(float _time)
 	if(!isMove) speed = 0;
 	sprite = currentAnimation->GetFrameSprite(currentAnimation->GetFrame(currentAnimation->GetCurrentFrame()));
 	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
-
+	
 	bird->setCoordinates(*this);
-
+	bird->sprite.setPosition(bird->x, bird->y);
+	
 	dy += 0.0010*_time;
 	currentAnimation->Play();
 	currentAnimation->Update(_time);
