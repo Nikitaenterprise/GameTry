@@ -18,14 +18,36 @@ Bird::~Bird()
 {
 }
 
+double Bird::CheckBirdTime()
+{
+	std::cout << t << std::endl;
+	if (t > 3) birdClock.restart();
+	return t;
+}
+
 void Bird::AnimationSetup()
 {
 	flyingLeft.SetSpriteSheet(texture);
 	sprite.scale(-1, 1);
 }
 
-void Bird::setCoordinates(const Player & obj)
+void Bird::CheckPlayerCoordinates(const Player & obj)
 {
-	this->x = obj.x - obj.spriteWInImage / 2;
-	this->y = obj.y - 2*obj.spriteHInImage / 2;
+	/*t = birdClock.getElapsedTime().asSeconds();
+	if (t < 100)
+	{
+		tempX = obj.x;
+		tempY = obj.y;
+		tempTime = t;
+	}
+	if ((tempX - obj.x != 0) || (tempY - obj.y != 0)) birdClock.restart();*/
+	Following(obj);
+}
+
+void Bird::Following(const Player & obj)
+{
+	dx = obj.x - x;
+	dy = obj.y - y;
+	x += dx*0.1;
+	y += dy*0.1 - 3;
 }

@@ -81,7 +81,7 @@ int main()
 	{
 		
 		float time = static_cast<float>(clock.getElapsedTime().asMicroseconds());
-		if (player1.isLive) timeOfGame= gameTimeClock.getElapsedTime().asSeconds();
+		if (player1.isLive) timeOfGame = gameTimeClock.getElapsedTime().asSeconds();
 		clock.restart();
 		time = time / 800;
 

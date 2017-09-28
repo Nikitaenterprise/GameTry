@@ -24,6 +24,9 @@ Player::Player(sf::Image & _image, sf::String _name, Level & _level, float _x, f
 	bird->sprite.setTexture(bird->texture);
 	bird->sprite.setScale(0.2, 0.2);
 	bird->AnimationSetup();
+	bird->x = (x - spriteWInImage / 2);
+	bird->y = (y - 3 * spriteHInImage / 2);
+	bird->sprite.setPosition(bird->x, bird->y);
 }
 
 Player::~Player()
@@ -110,7 +113,8 @@ void Player::Update(float _time)
 	sprite = currentAnimation->GetFrameSprite(currentAnimation->GetFrame(currentAnimation->GetCurrentFrame()));
 	sprite.setPosition(x + spriteWInImage / 2, y + spriteHInImage / 2);
 	
-	bird->setCoordinates(*this);
+	bird->CheckPlayerCoordinates(*this);
+	//bird->SetCoordinates(*this);
 	bird->sprite.setPosition(bird->x, bird->y);
 	
 	dy += 0.0010*_time;

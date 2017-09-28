@@ -9,8 +9,14 @@ public:
 	~Bird();
 
 	Animation flyingLeft;
-	
+	sf::Clock birdClock;
+
+	float t; 
+	float tempX, tempY, tempTime;
+
+	double CheckBirdTime();
 	void AnimationSetup();
-	void setCoordinates(const Player & obj);
+	void CheckPlayerCoordinates(const Player & obj);
+	void Following(const Player & obj);
 };
 
